@@ -1,0 +1,933 @@
+/* https://www.free-css.com/free-css-templates/page268/drinker */
+
+/*--------------------------------------------------------------------- File Name: style.css ---------------------------------------------------------------------*/
+
+
+/*--------------------------------------------------------------------- import Fonts ---------------------------------------------------------------------*/
+
+@import url('https://fonts.googleapis.com/css?family=Rajdhani:300,400,500,600,700');
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+@import url('https://fonts.googleapis.com/css?family=Baloo+Chettan&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700,900|Righteous&display=swap');
+
+/*****---------------------------------------- 1) font-family: 'Rajdhani', sans-serif;
+ 2) font-family: 'Poppins', sans-serif;
+ ----------------------------------------*****/
+
+
+/*--------------------------------------------------------------------- import Files ---------------------------------------------------------------------*/
+
+@import url(animate.min.css);
+@import url(normalize.css);
+@import url(meanmenu.css);
+@import url(owl.carousel.min.css);
+@import url(slick.css);
+@import url(jquery-ui.css);
+@import url(nice-select.css);
+
+/*--------------------------------------------------------------------- skeleton ---------------------------------------------------------------------*/
+
+* {
+     box-sizing: border-box !important;
+}
+
+html {
+     scroll-behavior: smooth;
+}
+
+body {
+     color: #666666;
+     font-size: 14px;
+     font-family: 'Lato', sans-serif;
+     line-height: 1.80857;
+     font-weight: normal;
+}
+
+a {
+     color: #1f1f1f;
+     text-decoration: none !important;
+     outline: none !important;
+     -webkit-transition: all .3s ease-in-out;
+     -moz-transition: all .3s ease-in-out;
+     -ms-transition: all .3s ease-in-out;
+     -o-transition: all .3s ease-in-out;
+     transition: all .3s ease-in-out;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+     letter-spacing: 0;
+     font-weight: normal;
+     position: relative;
+     font-weight: normal;
+     line-height: normal;
+     color: #111111;
+     margin: 0;
+     padding:0;
+}
+
+h1 {
+     font-size: 24px;
+     font-family: 'Poppins',sans-serif;
+}
+
+h2 {
+     font-size: 22px;
+     font-family: 'Poppins',sans-serif;
+}
+
+h3 {
+     font-size: 18px;
+   
+}
+
+h4 {
+     font-size: 16px
+}
+
+h5 {
+     font-size: 14px
+}
+
+h6 {
+     font-size: 13px
+}
+
+*,
+*::after,
+*::before {
+     -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+     box-sizing: border-box;
+}
+
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a {
+     color: #212121;
+     text-decoration: none!important;
+     opacity: 1
+}
+
+button:focus {
+     outline: none;
+}
+
+ul,
+li,
+ol {
+     margin: 0px;
+     padding: 0px;
+     list-style: none;
+}
+
+p {
+     margin: 0px;
+     font-weight: 300;
+     font-size: 15px;
+     line-height: 24px;
+}
+
+a {
+     color: #222222;
+     text-decoration: none;
+     outline: none !important;
+}
+
+a,
+.btn {
+     text-decoration: none !important;
+     outline: none !important;
+     -webkit-transition: all .3s ease-in-out;
+     -moz-transition: all .3s ease-in-out;
+     -ms-transition: all .3s ease-in-out;
+     -o-transition: all .3s ease-in-out;
+     transition: all .3s ease-in-out;
+}
+
+img {
+     max-width: 100%;
+     height: auto;
+}
+
+ :focus {
+     outline: 0;
+}
+
+.btn-custom {
+     margin-top: 20px;
+     background-color: transparent !important;
+     border: 2px solid #ddd;
+     padding: 12px 40px;
+     font-size: 16px;
+}
+
+.lead {
+     font-size: 18px;
+     line-height: 30px;
+     color: #767676;
+     margin: 0;
+     padding: 0;
+}
+
+.form-control:focus {
+     border-color: #ffffff !important;
+     box-shadow: 0 0 0 .2rem rgba(255, 255, 255, .25);
+}
+
+.navbar-form input {
+     border: none !important;
+}
+
+.badge {
+     font-weight: 500;
+}
+
+blockquote {
+     margin: 20px 0 20px;
+     padding: 30px;
+}
+
+button {
+     border: 0;
+     margin: 0;
+     padding: 0;
+     cursor: pointer;
+}
+
+.full {
+     float: left;
+     width: 100%;
+}
+
+.layout_padding {
+     padding-top: 90px;
+     padding-bottom: 90px;
+}
+
+.layout_padding_2 {
+     padding-top: 75px;
+     padding-bottom: 75px;
+}
+
+.light_silver {
+     background: #f9f9f9;
+}
+
+.theme_bg {
+     background: #38c8a8;
+}
+
+.margin_top_30 {
+     margin-top: 30px !important;
+}
+
+.full {
+     width: 100%;
+     float: left;
+     margin: 0;
+     padding: 0;
+}
+
+
+/**-- heading section --**/
+
+
+/*---------------------------- preloader area ----------------------------*/
+.container {
+
+    max-width: 1168px;
+
+}
+.main-layout {
+     background-repeat: no-repeat;
+     background: url(../images/body_bg_2.png);
+     /* background-size: 100% 100%; */
+    object-fit: "cover";
+}
+
+.loader_bg {
+     position: absolute;
+     z-index: 9999999;
+     background: #fff;
+     width: 100%;
+     height: 100%;
+}
+
+.loader {
+     height: 100%;
+     width: 100%;
+     position: absolute;
+     left: 0;
+     top: 0;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+}
+
+.loader img {
+     width: 100%;
+}
+
+
+/*-- navigation--*/
+
+.navigation.navbar {
+     padding-top: 0px;
+     float: right;
+}
+
+.navigation.navbar-dark .navbar-nav .nav-link {
+     padding: 0 0px;
+     color: #fff;
+     font-size: 16px;
+     line-height: 20px;
+}
+
+.navigation.navbar-dark .navbar-nav .nav-link:focus,
+.navigation.navbar-dark .navbar-nav .nav-link:hover {
+     color: #000;
+}
+
+.navigation.navbar-dark .navbar-nav .active>.nav-link,
+.navigation.navbar-dark .navbar-nav .nav-link.active,
+.navigation.navbar-dark .navbar-nav .nav-link.show,
+.navigation.navbar-dark .navbar-nav .show>.nav-link {
+     color: #fdd430;
+}
+
+
+/*-- header area --*/
+
+
+/*--------------------------------------------------------------------- top banner area ---------------------------------------------------------------------*/
+
+
+/*--------------------------------------------------------------------- layout new css ---------------------------------------------------------------------*/
+
+
+
+.header {
+     width: 100%;
+     background: transparent;
+     padding: 0px 0px;
+     z-index: 999;
+
+position: relative;
+}
+
+.logo a {
+     font-size: 40px;
+     font-weight: bold;
+     text-transform: uppercase;
+     color: #fff;
+     line-height: 40px;
+}
+
+.banner_main {
+     padding: 10px 0 0px 0;
+}
+.banner_main::after {content: "";
+ position: relative;
+width: 297px;
+height: 370px;
+ right: 0;
+ top: 0;
+ background: url(../images/midil.png);
+ background-repeat: no-repeat;
+}
+.banner_main::before {content: "";
+ position: relative;
+width: 122px;
+
+height: 276px;
+ left: 0;
+ bottom:0;
+ background: url(../images/bottom.png);
+ background-repeat: no-repeat;
+}
+.text-bg {
+     text-align: center;
+    
+}
+
+.text-bg h1 {
+     color: #070605;
+     font-size: 48px;
+     line-height: 65px;
+     font-weight: bold;
+     padding-bottom:40px;
+}
+
+
+.text-bg a {
+     font-size: 17px;
+     background-color: #1d1c1d;
+     color: #fff;
+     padding: 13px 0px;
+     width: 100%;
+     max-width: 190px;
+     text-align: center;
+     display: inline-block;
+     transition: ease-in all 0.5s;
+}
+
+.text-bg a:hover {
+     background-color: #fe0131;
+     color: #fff;
+     transition: ease-in all 0.5s;
+     border-radius: 26px;
+}
+.text-img figure {
+     margin: 0px;
+}
+
+.text-img figure img {
+     width: 100%;
+}
+
+.titlepage {
+     text-align: center;
+     padding-bottom: 50px;
+}
+
+.titlepage h2 {
+     font-size: 40px;
+     color: #1d1c1d;
+     line-height: 35px;
+     font-weight: bold;
+     padding: 0;
+     padding-bottom: 20px;
+}
+
+.d_flex {
+     display: flex;
+     align-items: center;
+     flex-wrap: wrap;
+}
+
+
+/** store section **/
+
+.store {
+     padding: 20px 0px 20px 0px; border-top: #000 solid 0px;
+}
+.black_bg {margin-bottom: 50px;}
+.store .titlepage p {color: #6d6d6d; font-size: 17px; line-height: 28px;}
+.store .store_box {
+     text-align: left;
+}
+.store .store_box h3 {color: #1a1a1a; font-size: 30px; font-weight: 501; line-height: 30px;}
+.store .store_box figure {
+     margin: 0;
+     box-shadow: #ddd 0px 0px 11px 1px;
+     text-align: center;
+}
+
+.store .store_box figure img {
+     width: 100%;
+}
+
+.store .store_box p {
+     color: #6d6d6d;
+     font-size: 16px;
+     line-height: 24px;
+     padding: 25px 0px 25px 0px;
+}
+.store .store_box .read_more {
+     max-width: inherit; 
+     text-align: center; 
+     background: transparent; 
+     font-size: 14px; 
+     color: #000;
+     padding: 0;
+     font-weight: 250;
+}
+.store .store_box .read_more:hover {color: #ad003b;}
+
+/** end store section **/
+
+
+/** about section **/
+
+.about {
+     padding: 90px 0;
+     border-top: #000 solid 1px;
+     border-bottom: #000 solid 1px;
+}
+
+
+
+.red {color: #fe0131;}
+.about .titlepage h2 {
+     color: #272f43;
+     padding-bottom: 0;
+     
+}
+
+.about .about_box {
+     text-align: center;
+}
+
+.about .about_box p {
+     color: #000;
+     font-size: 17px;
+     line-height: 30px;
+     padding: 0px 0px 40px 0px;
+}
+
+
+/** end about section **/
+
+
+/** Testimonial section **/
+
+.Testimonial {
+     margin-top: 90px;
+}
+
+.Testimonial .titlepage h2 {
+     color: #474646;
+     margin-bottom: 0px;
+     padding-bottom: 20px;
+}
+
+.Testimonial .titlepage span {
+     color: #474646;
+     font-size: 17px; line-height: 28px;
+}
+
+
+
+.Testimonial_box {
+     text-align: left;
+}
+
+.Testimonial_box h4 {
+     color: #232323;
+     font-size: 30px;
+     line-height: 20px;
+     font-weight: 400;
+     padding: 0;
+}
+
+.Testimonial_box p {
+     color: #232323;
+     font-size: 17px;
+     line-height: 28px;
+     padding: 25px 0;
+}
+
+
+#myCarousel .carousel-control-prev, #myCarousel .carousel-control-next {
+width: 62px;
+height: 62px;
+background: #fe0131;
+opacity: 1;
+font-size: 28px;
+color: #fff;
+top: 50%;
+border-radius: 30px;
+}
+
+.carousel-caption {
+    position: inherit;
+}
+.carousel-indicators {display: none;}
+/** end Testimonial section **/
+
+
+/** contact section **/
+
+
+.wines h3 {
+ color: #181818;  
+ font-weight: 600;
+ font-size: 37px;
+line-height: 50px; 
+}
+
+.wines p {
+     font-size:17px; 
+     line-height: 32px; 
+     color: #232324; 
+     padding: 27px 0px 50px 0px;
+}
+.talk {
+     padding: 90px 0;
+     border-top: #000 solid 1px;
+     margin-top: 90px;
+}
+
+
+.main_form .form_contril {
+     border: #615e5e solid 1px;
+     margin-bottom: 20px;
+     width: 100%;
+     height: 45px;
+     background: transparent;
+     color: #615e5e;
+     font-size: 17px;
+     border-top: 0;
+     border-right: 0;
+     border-left: 0;
+}
+
+.main_form .textarea {
+     border: #615e5e solid 1px;
+     margin-bottom: 20px;
+     width: 100%;
+     padding-top: 25px;
+     background: transparent;
+     color: #615e5e;
+     font-size: 17px;
+     border-top: 0;
+     border-right: 0;
+     border-left: 0;
+}
+
+.main_form .send_btn {
+     font-size: 17px;
+     transition: ease-in all 0.5s;
+     text-transform: uppercase;
+     background-color: #1d1c1d;
+     color: #fff;
+     padding: 13px 0px;
+     margin: 0 auto;
+     display: block;
+     margin-top: 30px;
+     width: 100%;
+     max-width: 190px;
+}
+
+.main_form .send_btn:hover {
+     background-color: #fe0131;
+     transition: ease-in all 0.5s;
+     color: #fff;
+     border-radius: 26px;
+}
+
+#talk *::placeholder {
+     color: #615e5e;
+     opacity: 1;
+}
+
+
+/** end contact section **/
+
+.read_more {
+     font-size: 17px;
+     background-color: #1d1c1d;
+     color: #fff;
+     padding: 13px 0px;
+     width: 100%;
+     max-width: 190px;
+     text-align: center;
+     display: inline-block;
+     transition: ease-in all 0.5s;
+}
+
+.read_more:hover {
+     background: #fe0131;
+     color: #fff;
+     border-radius: 26px;
+     transition: ease-in all 0.5s;
+}
+
+
+/** footer **/
+
+.footer {
+     padding: 50px 0px;
+     background: transparent;
+     
+}
+
+.footer p {
+     color: #040404;
+     font-size: 18px;
+     line-height: 22px;
+     text-align: center;
+}
+
+.footer a {
+     color: #040404;
+}
+
+.footer a:hover {
+     color: #fe0131;
+}
+
+
+/** end footer **/
+/** star rating **/
+
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+body {
+    margin: 5%; 
+    text-align: center;
+    background: #111;
+    color: #333; 
+}
+h1 {
+    font-size: 2em; 
+    margin-bottom: .5rem;
+}
+
+/* Ratings widget */
+.rate {
+    display: inline-block;
+    border: 0;
+}
+/* Hide radio */
+.rate > input {
+    display: none;
+}
+/* Order correctly by floating highest to the right */
+.rate > label {
+    float: right;
+}
+/* The star of the show */
+.rate > label:before {
+    display: inline-block;
+    font-size: 2rem;
+    padding: .3rem .2rem;
+    margin: 0;
+    cursor: pointer;
+    font-family: FontAwesome;
+    content: "\f005 "; /* full star */
+}
+
+/* Half star trick */
+.rate .half:before {
+    content: "\f089 "; /* half star no outline */
+    position: absolute;
+    padding-right: 0;
+}
+/* Click + hover color */
+input:checked ~ label, /* color current and previous stars on checked */
+label:hover, label:hover ~ label { color: #73B100;  } /* color previous stars on hover */
+
+/* Hover highlights */
+input:checked + label:hover, input:checked ~ label:hover, /* highlight current and previous stars */
+input:checked ~ label:hover ~ label, /* highlight previous selected stars for new rating */
+label:hover ~ input:checked ~ label /* highlight previous selected stars */ { color: #A6E72D;  } 
+/** end star rating **/
+
+
+
+/** some white space style**/
+
+<style>
+  .booty-5 {
+     margin-bottom: 5px;
+  }
+</style>
+
+/** end some white space style**/
+
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+/* Add a grey background color to dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Add a black background color to the top navigation */
+.topnav {
+  background-color: #333;
+  overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Add an active class to highlight the current page */
+.active {
+  background-color: grey;
+  color: white;
+}
+
+/* Hide the link that should open and close the topnav on small screens */
+.topnav .icon {
+  display: none;
+}
+
+/* Dropdown container - needed to position the dropdown content */
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+/* Style the dropdown button to fit inside the topnav */
+.dropdown .dropbtn {
+  font-size: 17px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  line-height: 30px;
+}
+
+/* Style the dropdown content (hidden by default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Style the links inside the dropdown */
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+/* Add a dark background on topnav links and the dropdown button on hover */
+.topnav a:hover, .dropdown:hover .dropbtn {
+  background-color: #555;
+  color: white;
+}
+
+/* Add a grey background to dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Show the dropdown menu when the user moves the mouse over the dropdown button */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
+@media screen and (max-width: 600px) {
+  .topnav a:not(:first-child), .dropdown .dropbtn {
+    display: none;
+  }
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .topnav.responsive {position: relative;}
+  .topnav.responsive a.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+  .topnav.responsive .dropdown {float: none;}
+  .topnav.responsive .dropdown-content {position: relative;}
+  .topnav.responsive .dropdown .dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+</style>
+
+
+/* Button  wrapper */
+
+.wrapper {
+    border:5px ;
+    display:block;
+}
+
+input,
+button {
+      display:block;
+
+}
+
+
+#button {
+  display: inline-block;   
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  border-radius: 4px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  transition:  
+    opacity .5s, visibility .5s;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1000;
+vertical-align: middle;
+}
+#button::after {
+  
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 2em;
+  line-height: 50px;
+  color: #fff;
+}
+#button:hover {
+  cursor: pointer;
+  background-color: #ad003b;
+}
+#button:active {
+}
+#button.show {
+  opacity: 1;
+  visibility: visible;
+}

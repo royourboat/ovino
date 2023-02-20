@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- site metas -->
+    <title>OVINO</title>
+    {{sndmap.js}}
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <!-- style css -->
+    <link rel="stylesheet" href="static/css/style.css">
+    <!-- Responsive-->
+    <link rel="stylesheet" href="static/css/responsive.css">
+    <!-- fevicon -->
+    <link rel="icon" href="static/images/fevicon.png" type="image/gif" />
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="static/css/jquery.mCustomScrollbar.min.css">
+    <!-- Tweaks for older IEs-->
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+    <link rel="stylesheet" href="./static/css/normalize.css" />
+    <link rel="stylesheet" href="./static/css/skeleton.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+      .checked {
+        color: #ad003b;
+      }
+    </style>
+    <!--[if lt IE 9]>
+														</head>
+														<!-- Back to top button -->
+    <a id="button">
+      <img src="/static/images/ovino_v_rot180.png" align="center">
+    </a>
+    <!-- body -->
+  <body class="main-layout">
+    <!-- loader  --
+       <div align="center"><div class="loader_bg"><div class="loader"><img src="static/images/loading.gif" align="center"/></div></div></div>
+																<!-- end loader -->
+    <!-- header -->
+    <header>
+      <!-- header inner -->
+      <div class="head_top">
+        <div class="header">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md"></div>
+              <div class="col-md-6 logo_section">
+                <div class="full">
+                  <div class="center-desk">
+                    <div class="logo d-none d-lg-block " style=margin-top:-10%>
+                      <a href="">
+                        <img src="static/images/ovino.png" alt="#" />
+                      </a>
+                    </div>
+                    <div class="logo d-block d-lg-none">
+                      <a href="">
+                        <img src="static/images/ovino.png" alt="#" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md"></div>
+            </div>
+          </div>
+        </div>
+        <!-- end header inner -->
+        <!-- end header -->
+        <!-- banner -->
+        <section class="banner_main">
+          <div class="container" style=margin-top:-40px>
+            <h1>Find wine at your LCBO</h1>
+            <div align="center">
+              <div class="wrapper">
+                <form action="." method="GET">
+                  <input type="text" name="myaddress" id="myaddress" style="height:10%;width:95%;font-size:25px" placeholder="Enter Your Location..." />
+                  <input type="submit" value="Search" style="height:10%;width:95%;font-size:25px;background-color: #ad003b; color:white" />
+                </form>
+              </div>
+            </div>
+            <!-- MAP DISPLAY -->
+            <div class="row" style=margin-top:10px>
+              <div class="col-sm">
+                <div class="titlepage"> {% if my_store %} <h2 style=margin-top:40px>LCBO</h2>
+                  <h2 style=margin-top:-10px>
+                    <font color="#ad003b">{{my_store['name'].split('(')[0]}}</font>
+                  </h2> {%if '(' in my_store['name'] %} <h2 style=margin-top:-10px>
+                    <font color="#ad003b">{{'('+my_store['name'].split('(')[1]}}</font>
+                  </h2> {%endif%} <h3>
+                    <font size=5>{{my_store['address']}}
+                      <br> {{my_store['city']}}
+                      <br> {{my_store['phone_number']}}
+                    </font>
+                  </h3> {%endif%}
+                </div>
+              </div>
+              <div class="col-md">
+                <div align="center" style=margin-top:0px> {{sndmap.html}} </div>
+              </div>
+            </div> {%if len_wine_cards > 0%} <div class="row" style=margin-top:50px>
+              <div class="col-md">
+                <div class="logo">
+                  <img src="static/images/ovino_v.png" style="max-width: 25%;" />
+                </div>
+              </div>
+              <div class="col-md-6 ">
+                <div class="full">
+                  <div class="center-desk">
+                    <h1 style=margin-top:10px>Scroll for recommended bottles!</h1>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="logo">
+                  <img src="static/images/ovino_v.png" style="max-width: 25%;" />
+                </div>
+              </div>
+            </div> {% endif %}
+          </div>
+        </section>
+      </div>
+    </header>
+    <!-- end banner -->
+    <!-- store --> {% if my_store %} <div class="store">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 d-none d-sm-block">
+            <div class="titlepage">
+              <h2>Best Wines In LCBO:</h2>
+              <h2>
+                <font color="#ad003b">{{my_store['name']}}</font>
+              </h2>
+              <!-- 
+<p> {{my_store['address']}}, {{my_store['city']}}<br> {{my_store['phone_number']}}  </p>
+																							<!--  -->
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <!-- WINE CAROUSEL -->
+            <!-- For loop logic of jinja template -->
+            <ol> {%for i in range(len_wine_cards)%} {% set wine_card = wine_cards[i] %} <div class="black_bg">
+                <div class="row d_flex">
+                  <div class="col-md-4">
+                    <div class="store_box ">
+                      <figure>
+                        <img src={{wine_card['image']}} style="width:100%;" />
+                      </figure>
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="store_box ">
+                      <h3>{{wine_card['name']}}</h3>
+                      <h4>{{wine_card['varietal']}}
+                        <br> Made in {{wine_card['made_in']}}
+                        <br>By {{wine_card['by']}}
+                      </h4>
+                      <h3 style=margin-top:1%>
+                        <font color="#ad003b" size=6>{{"${:.2f}".format( wine_card['price'] )}} </font>
+                      </h3>
+                      <h4 style=margin-top:0px>
+                        <font color="#ad003b" size=5>{{wine_card['pos']}} of {{wine_card['pos']+wine_card['neg']}} recommend this price! </font>
+                      </h4>
+                      <font size=5> {% for i in range(5) %} {% if wine_card['ratings_average'] - i >= 0.9 %} <span class="fa fa-star checked"></span> {% elif wine_card['ratings_average'] - i >= 0.4 %} <span class="fa fa-star-half-empty checked"></span> {% else %} <span class="fa fa-star-o checked"></span> {%endif%} {%endfor%} </font>
+                      <span>
+                        <font color="#ad003b" size=5.5>{{wine_card['ratings_average']}}</font> &nbsp;
+                      </span>
+                      <h5 style=margin-top:-10px>
+                        <font color="#ad003b">({{wine_card['ratings_count']}} ratings) </font>
+                      </h5>
+                      <p style=margin-top:-10px>{{wine_card['description'].strip()}}</p>
+                      <p style=margin-top:-40px>{{wine_card['abv']}}% ABV <br>
+                        {{"%d"%(wine_card['calories']) }} Cal per {{wine_card['volume']}} {{wine_card['volume_unit']}} {{wine_card['container']}}
+                      </p>
+                      <!--                            <a class="read_more" href={{wine_card['details_url']}}>See LCBO SKU#{{wine_card['sku']}}</a>    -->
+                    </div>
+                  </div>
+                </div>
+              </div> {%endfor%} </ol>
+            <!-- end FOR LOOP  -->
+            <!-- end WINE CAROUSEL -->
+          </div>
+        </div>
+      </div>
+    </div> {% endif %}
+    <!-- end store -->
+    <!-- about 
+       
+  
+       
+      <div class="about"><div class="container"><div class="row"><div class="col-md-12"><div class="titlepage"><h2>About <span class="red"> Store</span></h2></div></div></div><div class="row"><div class="col-md-12"><div class="about_box "><p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of </p><a class="read_more" href="#">Read more</a></div></div></div></div></div>
+																					<!-- end about -->
+    <!-- Testimonial -->
+    <!-- end Testimonial -->
+    <!-- talk -->
+    <!-- end talk -->
+    <!--  footer -->
+    <footer>
+      <div class="footer">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <p>Developed by Stephen Ro</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- end footer -->
+    <!-- Javascript files-->
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/backtotopbutton.js"></script>
+    <script src="static/js/popper.min.js"></script>
+    <script src="static/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/jquery-3.0.0.min.js"></script>
+    <script src="static/js/plugin.js"></script>
+    <!-- sidebar -->
+    <script src="static/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="static/js/custom.js"></script>
+    <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+  </body>
+</html>
