@@ -171,7 +171,7 @@
                       <h4 style=margin-top:0px>
                         <font color="#ad003b" size=5>{{wine_card['pos']}} of {{wine_card['pos']+wine_card['neg']}} recommend this price! </font>
                       </h4>
-                      <font size=5> {% for i in range(5) %} {% if wine_card['ratings_average'] - i >= 0.9 %} <span class="fa fa-star checked"></span> {% elif wine_card['ratings_average'] - i >= 0.4 %} <span class="fa fa-star-half-empty checked"></span> {% else %} <span class="fa fa-star-o checked"></span> {%endif%} {%endfor%} </font>
+                      <font size=5> {% for i in range(5) %} {% if wine_card['ratings_average'] - i >= 0.89 %} <span class="fa fa-star checked"></span> {% elif wine_card['ratings_average'] - i >= 0.39 %} <span class="fa fa-star-half-empty checked"></span> {% else %} <span class="fa fa-star-o checked"></span> {%endif%} {%endfor%} </font>
                       <span>
                         <font color="#ad003b" size=5.5>{{wine_card['ratings_average']}}</font> &nbsp;
                       </span>
