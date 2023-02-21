@@ -61,7 +61,7 @@ def mapview():
             "infobox": ('<div jstcache="3" class="title full-width" jsan="7.title,7.full-width"><b><b>You</b></b></div>' ),
         })
         
-        wine_cards, my_store = lcbo.get_wine_cards_from_closest_store(url, coord['lat'], coord['lng'],  wine_limit = 25)
+        wine_cards, my_store = lcbo.get_wine_cards_from_closest_store(url, coord['lat'], coord['lng'],  wine_limit = 20)
                     
     #Define google maps parameters for googlemaps api.
     sndmap = Map(
