@@ -906,7 +906,7 @@ button {
   bottom: 20px;
   right: 20px;
   transition:  
-    opacity .5s, visibility .5s;
+  opacity .5s, visibility .5s;
   opacity: 0;
   visibility: hidden;
   z-index: 1000;
