@@ -30,7 +30,7 @@
 <h3 align="center">OVINO</h3>
 
   <p align="center">
-    A wine recommendation app that uses price-sentiment to rank bottles in Ontario, Canada.
+    A wine recommendation app that uses price-sentiment to rank bottles in Ontario, Canada. Built with Flask. 
     <br />
     <a href="https://ovino.onrender.com/">View Demo</a>
   </p>
@@ -68,14 +68,11 @@
 
 <!--[![Product Name Screen Shot][product-screenshot]](https://ovino.onrender.com/) -->
 
-OVINO is a project born from my desire to explore wine affordably. 
+The 'wine landscape' is quite overwhelming and intimidating for a novice like me. There are plenty of apps that can help you learn about a given bottle of wine. But, there are too many bottles to search from! An extra challenge for myself is that alcohol is sold and distributed by our provincial government through their organization called the LCBO (Liquor Control Board of Ontario). Since they have a near-complete monopoly on the alcohol market, it is not clear whether prices are set fairly.  
 
-The 'wine landscape' is quite overwhelming and intimidating for a novice like me. In Ontario Canada, 
-
-Alcohol is sold and distributed throughout the Canadian province of Ontario by a government organization called the LCBO (Liquor Control Board of Ontario). 
+OVINO is a project born from my desire to explore good wine in the city of Toronto (and the entire province of Ontario) without breaking the bank.  
 
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -161,7 +158,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the BSD 3-Clause License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -170,9 +167,9 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+Stephen Ro
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+Project Link: [https://github.com/royourboat/ovino](https://github.com/royourboat/ovino)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
