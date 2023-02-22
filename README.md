@@ -78,7 +78,7 @@ OVINO is a project born from my desire to explore good wine in the city of Toron
 
 
 
-<!-- GETTING STARTED -->
+<!-- GETTING STARTED ->
 ## Getting Started
 
 This is an example of how you may give instructions on setting up your project locally.
@@ -112,7 +112,7 @@ This is an example of how to list things you need to use the software and how to
 
 
 
-<!-- USAGE EXAMPLES -->
+<!-- USAGE EXAMPLES ->
 ## Usage
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
@@ -123,7 +123,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 
 
-<!-- ROADMAP -->
+<!-- ROADMAP ->
 ## Roadmap
 
 - [ ] Feature 1
@@ -137,7 +137,7 @@ See the [open issues](https://github.com/github_username/repo_name/issues) for a
 
 
 
-<!-- CONTRIBUTING -->
+<!-- CONTRIBUTING ->
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -175,7 +175,7 @@ Project Link: [https://github.com/royourboat/ovino](https://github.com/royourboa
 
 
 
-<!-- ACKNOWLEDGMENTS -->
+<!-- ACKNOWLEDGMENTS ->
 ## Acknowledgments
 
 * []()
