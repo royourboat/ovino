@@ -31,7 +31,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/github_username/repo_name">
-    <img src="static/images/ovino_white.png" alt="Logo" width="80" height="80">
+    <img src="static/images/ovino_white.png" alt="Logo" width="100" >
   </a>
 
 <h3 align="center">OVINO</h3>
