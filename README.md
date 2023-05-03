@@ -33,7 +33,9 @@
     A wine recommendation app that uses price-sentiment to rank bottles in Ontario, Canada. Built with Flask. 
     <br />
     <a href="https://ovino.onrender.com/">View Demo</a>
+    
     (Please wait 10 seconds for Render to boot up)
+    
   </p>
 </div>
 
