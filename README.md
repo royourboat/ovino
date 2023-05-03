@@ -34,8 +34,7 @@
     <br />
     <a href="https://ovino.onrender.com/">View Demo</a>
     
-    (Please wait 10 seconds for Render to boot up)
-    
+    Please wait 10 seconds for Render to boot up.
   </p>
 </div>
 
