@@ -68,9 +68,11 @@
 
 <!--[![Product Name Screen Shot][product-screenshot]](https://ovino.onrender.com/) -->
 
-The 'wine landscape' is quite overwhelming and intimidating for a novice like me. There are plenty of apps that can help you learn about a given bottle of wine. But, there are too many bottles to search from! An extra challenge for myself is that alcohol is sold and distributed by our provincial government through their organization called the LCBO (Liquor Control Board of Ontario). Since they have a near-complete monopoly on the alcohol market, it is not clear whether prices are set fairly.  
+The 'wine landscape' is quite overwhelming and intimidating for a novice like me. There are plenty of apps that can help you learn about a given bottle of wine. But, there are too many bottles to search from! An extra challenge in Ontario, Canada is that the provincial government manages all distribution of alcohol under the company LCBO (Liquor Control Board of Ontario). Since they have a near-complete monopoly on the alcohol market, it is not clear whether prices are set fairly. 
 
-OVINO is a project born from my desire to explore good wine in the city of Toronto (and the entire province of Ontario) without breaking the bank.  
+For an explanation of how OVINO works, here is a video of my capstone [presentation](https://www.youtube.com/watch?v=u7fpod5GeyY&t=1046s). 
+
+OVINO is a project born from my desire to explore good wine in the city of Toronto (and the entire province of Ontario) without breaking the bank. My anecdotal evidence that this project is successful is from my own data. I bought two bottles that interested me from my app's recommendations. These bottles were cheap (under $20) and tasted brilliant. I also bought two bottles recommended by the LCBO wine guide with the knowledge that I am new. Their strongly recommended selections were remarkably disappointing and flat tasting. 
 
 
 
