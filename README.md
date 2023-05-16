@@ -62,6 +62,8 @@ I collect all of reviews containing prices and build a dataset with their sentim
 
 For an explanation of how OVINO works, here is a short video of my capstone [presentation](https://www.youtube.com/watch?v=u7fpod5GeyY&t=1046s). 
 
+> Technologies: Python, SQL, Bash, Flask, HTML/CSS, Github Actions, Google API.
+
 Using Github Actions, I wrote a periodic web scraper that collects product information from LCBO. See here: https://github.com/royourboat/lcbo-wine-scraper
 
 For each bottle of wine at LCBO, I found the corresponding Vivino page and scraped the reviews. This amounted to approximately 9 million reviews. A rules-based approach is sufficient to identify Vivino reviews containing prices. The next step is to train a model on the training set. Then, apply the model to the remaining reviews containing prices to create a data set of {x: prices paid, y: sentiment} for each bottle. 
