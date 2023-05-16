@@ -38,122 +38,55 @@
 
 
 
-<!-- TABLE OF CONTENTS ->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
-
 
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<!--[![Product Name Screen Shot][product-screenshot]](https://ovino.onrender.com/) -->
+This repo contains my Flask app, OVINO, and is [hosted on Render](https://ovino.onrender.com). OVINO finds the nearest LCBO store to your location and displays wines with the "best-valued" wines. 
 
-The 'wine landscape' is quite overwhelming and intimidating for a novice like me. There are plenty of apps that can help you learn about a given bottle of wine. But, there are too many bottles to search from! An extra challenge in Ontario, Canada is that the provincial government manages all distribution of alcohol under the company LCBO (Liquor Control Board of Ontario). Since they have a near-complete monopoly on the alcohol market, it is not clear whether prices are set fairly. 
+## How do you select the "best-valued" wines?
 
-For an explanation of how OVINO works, here is a video of my capstone [presentation](https://www.youtube.com/watch?v=u7fpod5GeyY&t=1046s). 
+When I searched for a bottle on the popular wine app [Vivino](https://vivino.com), I found about 1-2% of reviews contain sentiment about the price. Below are some samples:
+> [4.5 stars] "Excellent! Another great deal at Costco. $40" 
+> [4.5 stars] "Beautiful wine!! A bargain at $65!!" 
+> [3.0 stars] "Dry , I think can keep for a while longer â€¦ ripen berries , not too much tannin .. $35. Not a fan" 
+> [3.0 stars] "Quite acidic at first, but much better after passing it through the aerator! Red fruits mostly, cranberry, red cherry, a bit of oak and a bit of the raisin. Paid 19$, definitely a good bargin"
 
-OVINO is a project born from my desire to explore good wine in the city of Toronto (and the entire province of Ontario) without breaking the bank. My anecdotal evidence that this project is successful is from my own data. I bought two bottles that interested me from my app's recommendations. These bottles were cheap (under $20) and tasted brilliant. I also bought two bottles recommended by the LCBO wine guide with the knowledge that I am new. Their strongly recommended selections were remarkably disappointing and flat tasting. 
+I collect all of reviews containing prices and build a dataset with their sentiment. So, a given bottle with many reviews will have a distribution of {x: prices paid, y: price-sentiment}. Suppose the LCBO set a bottle's price as p. The vivino reviews we care about are from users (a) who paid more than p and thought it was worth it, and (b) who paid less than p and thought it was NOT worth it. The ratio of (a) and (b) gives a positivity index for LCBO's price, p. OVINO recommends the bottles at your nearest LCBO store and rank them by their positivity score. 
 
+## How did you do this project?
 
+For an explanation of how OVINO works, here is a short video of my capstone [presentation](https://www.youtube.com/watch?v=u7fpod5GeyY&t=1046s). 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+Using Github Actions, I wrote a periodic web scraper that collects product information from LCBO. See here: https://github.com/royourboat/lcbo-wine-scraper
 
+For each bottle of wine at LCBO, I found the corresponding Vivino page and scraped the reviews. This amounted to approximately 9 million reviews. A rules-based approach is sufficient to identify Vivino reviews containing prices. The next step is to train a model on the training set. Then, apply the model to the remaining reviews containing prices to create a data set of {x: prices paid, y: sentiment} for each bottle. 
 
+Typically, a sentiment model (e.g., sentiment of Yelp reviews) is created by classifying 1-star and 5-star reviews as "negative" and "positive", respectively. This is a fast and easy method. I found this technique is able to recover approximately 82% (i.e., 1 in 5 is misclassified) when using 50k 1- and 5-star reviews as a training set.
 
-<!-- GETTING STARTED ->
-## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
-
-### Installation
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/github_username/repo_name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+To do better, I created a training set of 2000 reviews containing prices labeled with price-sentiments (positive/negative = 2). My price-sentiment model is a bag-of-words model trained on monograms and bigrams (after lemmatization) along with an SGD classifier. My model recovers 91% of the test set (i.e., 1 in 10 misclassified). I have ideas on how to do better (stay tuned!). 
 
 
+## Why did you choose this project? 
 
-<!-- USAGE EXAMPLES ->
-## Usage
+TL;DR: It is too challenging for a novice like me to explore wine on a budget. 
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+I went to the LCBO and wanted to try wine. I didn't bother looking because (a) I don't know anything about wine, and (b) the of a bad experience for $20 is too high. As a cherry on top, the LCBO is a government-run corporation that has a complete monopoly on alcohol distributions in Ontario. There are suspicions and allegations of unfair practices that make me wonder if our government is ripping us off. 
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+The following solutions to find wine had either failed me or made me give up:
+* I once asked for two wine recommendations from an official LCBO wine guide/staff. Their recommendations were shockingly bad. 
+* If you take a picture of wine bottles, Vivino's app identifies them and returns the ratings. It is impractical to take pictures of 20 wine racks and wait more than 20-30 seconds for Vivino to identify them. Many bottles don't get identified. The vintage bottles aren't stacked vertically and need to be scanned individually.
+* I found a couple bottles with 4+ star ratings on Vivino. Most wine reviews are not useful since they only contain flavour notes and some sentiment like "fantastic". Some reviews had red flags or warnings and gave 4 stars. 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+What I eventually found helpful is the rare review containing the price someone paid and their sentiment for that price! If only we could aggregate all of this valuable price-sentiment information... :)
 
+## Does it work?
 
+You tell me! I bought two bottles recommended from my app and absolutely loved them. It was a complete shock that my app gave great recommendations. I'd like to buy more on a good occasion. I'm also trying to lose weight... but I calculated the total calories for every bottle, which may be useful for you too! To calculate calories, I used the alcohol percentage and reported sugar content from LCBO, the bottle volume, and some conversions between alcohol and sugar mass to calories. 
 
-<!-- ROADMAP ->
-## Roadmap
+The app needs some more features! More are coming!!
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
-
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTRIBUTING ->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
@@ -171,7 +104,6 @@ Distributed under the BSD 3-Clause License. See `LICENSE.txt` for more informati
 
 Stephen Ro
 
-Project Link: [https://github.com/royourboat/ovino](https://github.com/royourboat/ovino)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
