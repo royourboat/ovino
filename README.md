@@ -49,11 +49,11 @@ This repo contains my Flask app, OVINO, and is [hosted on Render](https://ovino.
 
 When I searched for a bottle on the popular wine app [Vivino](https://vivino.com), I found about 1-2% of reviews contain sentiment about the price. Below are some samples:
 > [4.5 stars] "Excellent! Another great deal at Costco. $40" 
-
+>
 > [4.5 stars] "Beautiful wine!! A bargain at $65!!" 
-
+>
 > [3.0 stars] "Dry , I think can keep for a while longer â€¦ ripen berries , not too much tannin .. $35. Not a fan" 
-
+>
 > [3.0 stars] "Quite acidic at first, but much better after passing it through the aerator! Red fruits mostly, cranberry, red cherry, a bit of oak and a bit of the raisin. Paid 19$, definitely a good bargin"
 
 I collect all of reviews containing prices and build a dataset with their sentiment. So, a given bottle with many reviews will have a distribution of {x: prices paid, y: price-sentiment}. Suppose the LCBO set a bottle's price as p. The vivino reviews we care about are from users (a) who paid more than p and thought it was worth it, and (b) who paid less than p and thought it was NOT worth it. The ratio of (a) and (b) gives a positivity index for LCBO's price, p. OVINO recommends the bottles at your nearest LCBO store and rank them by their positivity score. 
