@@ -43,7 +43,10 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-This repo contains my Flask app, OVINO, and is [hosted on Render](https://ovino.onrender.com). OVINO finds the nearest LCBO store to your location and displays wines with the "best-valued" wines. 
+This repo contains my Data Science Capstone Project called OVINO. OVINO finds the nearest LCBO store to your location and displays wines with the "best-valued" wines. 
+
+My project was competitively selected amongst two data science cohorts by The Data Incubator (TDI) faculty. I gave a presentation to a group of data science business owners, professional data scientists, TDI faculty and fellows. My [presentation](https://www.youtube.com/watch?v=u7fpod5GeyY&t=1046s) can be viewed here.  
+
 
 ## How do you select the "best-valued" wines?
 
@@ -56,7 +59,7 @@ When I searched for a bottle on the popular wine app [Vivino](https://vivino.com
 >
 > [3.0 stars] "Quite acidic at first, but much better after passing it through the aerator! Red fruits mostly, cranberry, red cherry, a bit of oak and a bit of the raisin. Paid 19$, definitely a good bargin"
 
-I collect all of reviews containing prices and build a dataset with their sentiment. So, a given bottle with many reviews will have a distribution of {x: prices paid, y: price-sentiment}. Suppose the LCBO set a bottle's price as p. The vivino reviews we care about are from users (a) who paid more than p and thought it was worth it, and (b) who paid less than p and thought it was NOT worth it. The ratio of (a) and (b) gives a positivity index for LCBO's price, p. OVINO recommends the bottles at your nearest LCBO store and rank them by their positivity score. 
+The LCBO sets a given bottle's price as p. The vivino reviews we care about are from users (a) who paid more than p and thought it was worth it, and (b) who paid less than p and thought it was NOT worth it. The ratio of (a) and (b) gives a positivity index for LCBO's price, p. OVINO recommends the bottles at your nearest LCBO store and rank them by their positivity score. 
 
 ## How did you do this project?
 
@@ -68,7 +71,7 @@ Using Github Actions, I wrote a periodic web scraper that collects product infor
 
 For each bottle of wine at LCBO, I found the corresponding Vivino page and scraped the reviews. This amounted to approximately 9 million reviews. A rules-based approach is sufficient to identify Vivino reviews containing prices. The next step is to train a model on the training set. Then, apply the model to the remaining reviews containing prices to create a data set of {x: prices paid, y: sentiment} for each bottle. 
 
-Typically, a sentiment model (e.g., sentiment of Yelp reviews) is created by classifying 1-star and 5-star reviews as "negative" and "positive", respectively. This is a fast and easy method. I found this technique is able to recover approximately 82% (i.e., 1 in 5 is misclassified) when using 50k 1- and 5-star reviews as a training set.
+Typically, a sentiment model (e.g., sentiment of Yelp reviews) is created by classifying 1-star and 5-star reviews as "negative" and "positive", respectively. This is a fast and easy method. I found this technique is able to recover approximately 82% (i.e., 1 in 5 is misclassified) of the test set when using 50k 1- and 5-star reviews as a training set.
 
 To do better, I created a training set of 2000 reviews containing prices labeled with price-sentiments (positive/negative = 2). My price-sentiment model is a bag-of-words model trained on monograms and bigrams (after lemmatization) along with an SGD classifier. My model recovers 91% of the test set (i.e., 1 in 10 misclassified). I have ideas on how to do better (stay tuned!). 
 
