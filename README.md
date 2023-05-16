@@ -45,7 +45,7 @@
 
 This repo contains my Data Science Capstone Project called OVINO. OVINO finds the nearest LCBO store to your location and displays wines with the "best-valued" wines. 
 
-My project was competitively selected amongst two data science cohorts by The Data Incubator (TDI) faculty. I gave a presentation to a group of data science business owners, professional data scientists, TDI faculty and fellows. My [presentation](https://www.youtube.com/watch?v=u7fpod5GeyY&t=1046s) can be viewed here.  
+My project was competitively selected amongst two data science cohorts by [The Data Incubator](https://www.thedataincubator.com/) (TDI) faculty. I gave a presentation to a group of data science business owners, professional data scientists, TDI faculty and fellows. My presentation can be viewed [here](https://www.youtube.com/watch?v=u7fpod5GeyY&t=1046s).  
 
 
 ## How do you select the "best-valued" wines?
@@ -58,6 +58,10 @@ When I searched for a bottle on the popular wine app [Vivino](https://vivino.com
 > [3.0 stars] "Dry , I think can keep for a while longer â€¦ ripen berries , not too much tannin .. $35. Not a fan" 
 >
 > [3.0 stars] "Quite acidic at first, but much better after passing it through the aerator! Red fruits mostly, cranberry, red cherry, a bit of oak and a bit of the raisin. Paid 19$, definitely a good bargin"
+>
+> [1.0 stars] "It's F$@king delicious, £5 in tesco"
+>
+> [1.0 stars] "Absolutely terrible. Don't waste the 9 or 10$ it is to buy it. There are more important things."
 
 The LCBO sets a given bottle's price as p. The vivino reviews we care about are from users (a) who paid more than p and thought it was worth it, and (b) who paid less than p and thought it was NOT worth it. The ratio of (a) and (b) gives a positivity index for LCBO's price, p. OVINO recommends the bottles at your nearest LCBO store and rank them by their positivity score. 
 
