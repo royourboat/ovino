@@ -63,7 +63,7 @@ When I searched for a bottle on the popular wine app [Vivino](https://vivino.com
 >
 > [1.0 stars] "Absolutely terrible. Don't waste the 9 or 10$ it is to buy it. There are more important things."
 >
-> (You'll probably notice that star ratings and price-sentiment are perfectly correlated.)
+> (You'll probably notice that star ratings and price-sentiment are not perfectly correlated.)
 
 The LCBO sets a given bottle's price as p. The vivino reviews we care about are from users (a) who paid more than p and thought it was worth it, and (b) who paid less than p and thought it was NOT worth it. The ratio of (a) and (b) gives a positivity index for LCBO's price, p. OVINO recommends the bottles at your nearest LCBO store and rank them by their positivity score. 
 
