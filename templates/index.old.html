@@ -9,15 +9,17 @@
     <!-- site metas -->
     <title>OVINO</title>
     {{sndmap.js}}
-
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <!-- collapsible css -->
-    <link rel="stylesheet" href={{ url_for('static', filename='css/slider/materialize_edited.css') }}>
+    <!-- SLIDER CSS -->
+    <link rel="stylesheet" href={{ url_for('static', filename='css/slider/materialize.css') }}>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/slider/tachyons.min.css') }}>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/slider/main.min.css') }}>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <!-- bootstrap css -->
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
@@ -36,32 +38,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
     <link rel="stylesheet" href="./static/css/normalize.css" />
     <link rel="stylesheet" href="./static/css/skeleton.css" />
-    <link rel="stylesheet" href="cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
 </head>
-    <style>
-      .checked {
-        color: #ad003b;
-      }
-    </style>
-    <style>
-      .solid_border{
-        border: 1px;
-        border-style: solid;
-        color: bababa;
-      }
-    </style>
-    <style>
-      .btn{
-          font-size: 20px;
-      }
-    </style>
-
-
-  <!-- Javascript -->
-
-  <script type="text/javascript" src="static/js/materialize.min.js"></script>
 
 
 
@@ -110,29 +90,22 @@
         <!-- banner -->
         <section class="banner_main">
           <div class="container" style=margin-top:-40px>
-            <h1>Find <span class="checked">good</span> wine <span class="checked">fast</span> at your LCBO</h1>
+            <h1>Find wine at your LCBO</h1>
             <div align="center">
-            <div class="col-lg-3 col-md-3"> </div>
+              <div class="wrapper">
+                <form action="." method="GET">
+                  {% if my_store %}
+                  <input type="text" name="myaddress" id="myaddress" style="height:10%;width:95%;font-size:25px" value="{{MYADDRESS}}"  />
+                  {% else %}
+                  <input type="text" name="myaddress" id="myaddress" style="height:10%;width:95%;font-size:25px" placeholder="Enter Your Location..."  />
+                  {%endif%}
 
-            <div class="col-lg-6 col-md-6 col-s12">
-              <form action="." method="GET">
-                <div class="input-field ">
-                      
-                    {% if my_store %}
-                    <input type="text" name="myaddress" id="myaddress" style="height:10%;width:100%;font-size:25px; font-family: FontAwesome; padding-left: 30px;" value="{{MYADDRESS}}"  />
-
-                    {% else %}
-                    <input type="text" name="myaddress" id="myaddress" style="height:10%;width:100%;font-size:25px; font-family: FontAwesome; padding-left: 30px;" placeholder="Enter Your Location..."  />
-                    {%endif%}
-                    <label class="label-icon" for="search"><i class="material-icons" style="padding-left: 5px;">search</i></label>
-
-                    
-                </div>
-              </form>
+                  {{ form.search(class_="btn") }}
+                  
+                </form>
+              </div>
             </div>
-            <div class="col-lg-3 col-md-3"> </div>
 
-            </div>
 
 
 
@@ -152,7 +125,6 @@
                   </h3> {%endif%}
                 </div>
               </div>
-
               <div class="col-md">
                 <div align="center" style=margin-top:0px> {{sndmap.html}} </div>
               </div>
@@ -183,22 +155,57 @@
     <!-- end banner -->
 
 
-    <!-- store --> 
-
-    {% if my_store %} 
-
-    <div class="store">   <a id="anchor-filter"></a>
-
+    <!-- store --> {% if my_store %} <div class="store">
 
  <form action="#" method="GET">
-<div class="row">
-<div class="col-lg-3 col-md-3"  > </div>
-<div class="col-lg-6 col-md-6 col-s12"  >
+
  <ul class="collapsible" >
       <li>
-      <div class="collapsible-header"><i class="material-icons" style="font-size: 30px; padding-top: 2px;">tune</i><h2>Filters</h2></div> 
+      <div class="collapsible-header"><i class="material-icons" style="font-size: 30px">tune</i><h2>Filters</h2></div> 
       <div class="collapsible-body #ffffff white ">
         
+        <div class="row">
+        <!-- Form query and submit button -->
+          <div class="col-lg-6 col-md-6 col-s12"  >
+              <h2><span id="val_pos_min">{{ "%d"|format(form.pos_min.data)}}</span>%+ &nbsp; <span class="fa fa-thumbs-up checked" style="font-size: 40px" color="#ad003b">&nbsp;</span> Price</h2>
+              <div class="slidecontainer">
+                <!-- Star radius -->
+                  <h2>
+                  <span id="val_pos_min" class="fr" style="padding-top: 8px;">{{ "%.2f"|format(form.pos_min.data)}}</span>
+                 </h2>  
+                  <p class="range-field">
+                    <input id="pos_min" min="0" max="95" name="pos_min" oninput="outputUpdateInt(pos_min.value,pos_min.name)" step="5" type="range" value={{form.pos_min.data}} style="margin-top: 20px; ">                
+                  </p>
+
+              </div>
+          </div>
+
+
+    <div class="range-wrapper">
+      <header>
+        <h2>Price Range</h2>
+        <p>Use slider or enter min and max price</p>
+      </header>
+      <div class="price-input">
+        <div class="field">
+          <span>Min</span>
+          <input type="number" class="input-min" value="2500">
+        </div>
+        <div class="separator">-</div>
+        <div class="field">
+          <span>Max</span>
+          <input type="number" class="input-max" value="7500">
+        </div>
+      </div>
+      <div class="slider">
+        <div class="progress"></div>
+      </div>
+      <div class="range-input">
+        <input type="range" class="range-min" min="0" max="10000" value="2500" step="100">
+        <input type="range" class="range-max" min="0" max="10000" value="7500" step="100">
+      </div>
+    </div>
+
 
           <!--
           <div class="col-lg-6 col-md-6 col-s12">
@@ -211,64 +218,44 @@
           -->
 
           <div class="row">
-              <div class="col-lg-6 col-md-6 col-s12 h4">
-              <h2>Min Price </h2>
+              <div class="col-lg-4 col-md-4 col-s4">
+              <h2>Price Min 
               <div class="input-field inline" >
-              <input id="price_min" name="price_min" type="number" value = {{form.price_min.data}} min = "1" max = {{form.price_max.data-1}} style="text-align-last:center; font-size:20px;" oninput="outputUpdateInt(price_min.value,price_min.name)">
-              <label class="label-icon" for="attach_money" style="top: -3px;"><i class="material-icons" style="padding-left: 5px;">attach_money</i></label>
+              <input id="price_min" name="price_min" type="number" value = {{form.price_min.data}} style="text-align-last:center; font-size:20px;" oninput="outputUpdateInt(price_min.value,price_min.name)">
               </div>
-              
+              </h2>
               </div>  
 
-              <div class="col-lg-6 col-md-6 col-s12 h4">
-              <h2>Max Price </h2>
+              <div class="col-lg-4 col-md-4 col-s4">
+              <h2>Price Min 
               <div class="input-field inline" >
-              <input id="price_max" name="price_max" type="number" value = {{form.price_max.data}} min = {{form.price_min.data+1}} max = "500" style="text-align-last:center; font-size:20px;" oninput="outputUpdateInt(price_max.value,price_max.name)">
-              <label class="label-icon" for="attach_money" style="top: -3px;"><i class="material-icons" style="padding-left: 5px;">attach_money</i></label>
+              <input id="price_max" name="price_max" type="number" value = {{form.price_max.data}} style="text-align-last:center; font-size:20px;" oninput="outputUpdateInt(price_max.value,price_max.name)">
               </div>
+              </h2>
               </div>  
-          </div>
 
-
-
-         
-
-        <div class="row">
-        <!-- Form query and submit button -->
-          <div class="col-lg-6 col-md-6 col-s12"  >
-            <h2><i class="fa fa-star checked h3"></i> Rating: <span id="val_rating_min" color="#ad003b">{{ "%.1f"|format(form.rating_min.data)}}</span>+    </h2>
-              <div class="slidecontainer">
-                  <p class="range-field">
-                    <input id="rating_min" min="1.0" max="4.6" name="rating_min" oninput="outputUpdate(rating_min.value,rating_min.name)" step="0.4" type="range" value={{form.rating_min.data}} style="margin-top:  20px; ">                
-                  </p>
-
+              <div class="col-lg-4 col-md-4 col-s4">
+              <h2>Stars 
+              <div class="input-field inline" >
+              <input id="rating_min" name="rating_min" type="text" value = {{form.rating_min.data}} style="text-align-last:center; font-size:20px;" oninput="outputUpdateInt(rating_min.value,rating_min.name)">
               </div>
+              </h2>
+              </div>  
+
           </div>
-          <div class=" col-lg-6 col-md-6 col-s12 h4">
-          <h2>Sort by</h2>
-          {{form.sort_by}}
-          </div>
 
-
-        </div>
-
-        <div class="row">
+          <div class="row">
           <div class="col l12 m12 s12">
-          <div class="br3 box pa3 mt2 center-align h2">
+          <div class="br3 box pa3 mt2 center-align">
             <input type="hidden" name="myaddress" value="{{MYADDRESS}}" />
             {{ form.submit(class_="btn") }}
           </div>
           </div>
-        </div>
-      </div>
+          </div>
 
 
     </li>
   </ul>
-</div>
-<div class="col-lg-3 col-md-3"  > </div>
-</div>
-
  </form>       
 
 
@@ -278,7 +265,7 @@
         <div class="row">
           <div class="col-md-12">
             <!-- WINE CAROUSEL -->
-            {% if len_wine_cards > 0 %} 
+            <!-- For loop logic of jinja template -->
             <ol> {%for i in range(len_wine_cards)%} {% set wine_card = wine_cards[i] %} <div class="black_bg">
                 <div class="row d_flex">
                   <div class="col-md-4">
@@ -295,65 +282,41 @@
                         <br> Made in {{wine_card['made_in']}}
                         <br>By {{wine_card['by']}}
                       </h4>
-                      <h3 style="padding-top: 20px;">
-                        <font color="#ad003b" >{{"${:.2f}".format( wine_card['price'] )}} </font>
+                      <h3 style=margin-top:1%>
+                        <font color="#ad003b" size=6>{{"${:.2f}".format( wine_card['price'] )}} </font>
                       </h3>
                       <h4 style=margin-top:0px>
                         <font color="#ad003b" size=5>{{wine_card['pos']}} of {{wine_card['pos']+wine_card['neg']}} recommend this price! </font>
                       </h4>
-
-                      <h4 style="margin-top:10px;">
+                      <h4>
                       <font size=5> {% for i in range(5) %} {% if wine_card['ratings_average'] - i >= 0.89 %} <span class="fa fa-star checked"></span> {% elif wine_card['ratings_average'] - i >= 0.39 %} <span class="fa fa-star-half-empty checked"></span> {% else %} <span class="fa fa-star-o checked"></span> {%endif%} {%endfor%} </font>
                       <span>
-                        <font color="#ad003b" size=5.5>{{wine_card['ratings_average']}}</font> 
-                      </span>
-                      <font color="#ad003b">({{wine_card['ratings_count']}}) </font>
-                     <!-- <span>
                         <font color="#ad003b" size=5.5>{{wine_card['ratings_average']}}</font> &nbsp;
-                      </span> -->
+                      </span>
                       </h4>
-              
-                      <br>
-                      <h4 >
-                        {{wine_card['description'].strip()}}<br><br>
+                      <h5>
+                        <font color="#ad003b">({{wine_card['ratings_count']}} ratings) </font>
+                      </h5>
+                      
+                      <p >{{wine_card['description'].strip()}}<br>
                       {{wine_card['abv']}}% ABV <br>
                         {{"%d"%(wine_card['calories']) }} Cal per {{wine_card['volume']}} {{wine_card['volume_unit']}} {{wine_card['container']}}
-                      </h4>
+                      </p>
                       <!--                            <a class="read_more" href={{wine_card['details_url']}}>See LCBO SKU#{{wine_card['sku']}}</a>    -->
                     </div>
                   </div>
                 </div>
               </div> {%endfor%} </ol>
-
-              &nbsp;
-            {% else %}
-            <h1> Sorry! No wines were found.<br>Please select different filters and try again. </h1>
-
-            {% endif %}
             <!-- end FOR LOOP  -->
             <!-- end WINE CAROUSEL -->
           </div>
         </div>
       </div>
-
-    <div class="row">
-    <div class="col l12 m12 s12">
-    <div align="center">
-    <div class="container">
-        <div id="pagination-long" ></div>
-    </div>
-    </div>
-    </div>
-    </div>
-
-
     </div> {% endif %}
-
-
-
     <!-- end store -->
     <!-- about 
        
+  
        
       <div class="about"><div class="container"><div class="row"><div class="col-md-12"><div class="titlepage"><h2>About <span class="red"> Store</span></h2></div></div></div><div class="row"><div class="col-md-12"><div class="about_box "><p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of </p><a class="read_more" href="#">Read more</a></div></div></div></div></div>
 																					<!-- end about -->
@@ -362,29 +325,17 @@
     <!-- talk -->
     <!-- end talk -->
     <!--  footer -->
-        <footer class="page-footer">
-          <div class="container">
-            <div class="row">
-              <div class="col l6 s12">
-                <h5 class="white-text"></h4>
-                <p class="grey-text text-lighten-4"></p>
-              </div>
-              <div class="col l4 offset-l2 s12">
-                <h5 class="white-text">Links</h5>
-                <ul>
-                  <li><a class="grey-text text-lighten-3" href="{{url_for('about')}}">Link 1</a></li>
-                </ul>
-              </div>
+    <footer>
+      <div class="footer">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <p>Developed by Stephen Ro</p>
             </div>
           </div>
-          <div class="footer-copyright">
-            <div class="container">
-           Stephen Ro © 2023 Copyright Text
-          
-            </div>
-          </div>
-        </footer>
-
+        </div>
+      </div>
+    </footer>
     <!-- end footer -->
     <!-- Javascript files-->
     <script src="static/js/jquery.min.js"></script>
@@ -398,7 +349,6 @@
     <script src="static/js/custom.js"></script>
     <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
 
-    <script src="static/js/pagination.js"></script>
 
 
   <script>
@@ -406,47 +356,28 @@
     var elems = document.querySelectorAll('.collapsible');
     var instances = M.Collapsible.init(elems, {});
   });
-   document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('select');
-    var instances = M.FormSelect.init(elems, options);
-  });
-  function outputUpdate(val, id) {
-      document.querySelector('#val_' + id).innerHTML = parseFloat(val).toFixed(1);
-    }
-  function outputUpdateInt(val, id) {
-      document.querySelector('#val_' + id).innerHTML = parseInt(val);
-    }
-
   </script>
 
-   <script>
-    $(function() {
-        $(function() {
-            $('#pagination-long').materializePagination({
-                align: 'center',
-                lastPage: {{total_num_pages}},
-                firstPage: 1,
-                urlParameter: 'page',
-                useUrlParameter: true,
-                onClickCallback: function(requestedPage) {
-                    console.log('Requested page from #pagination-long: ' + requestedPage);
-                }
-            });
-        });
-    });
-    </script>
-
-    <script>
-      const urlParams = new URLSearchParams(window.location.search);
-      const page = urlParams.get('page');
-      const submit = urlParams.get('submit');
-      var element_to_scroll_to = document.getElementById('anchor-filter');
-      if (page > 1 || submit){
-        element_to_scroll_to.scrollIntoView({ behavior: "instant"});
+    <style>
+      .checked {
+        color: #ad003b;
       }
+    </style>
 
+  <!-- Javascript -->
 
-    </script>
+  <script type="text/javascript" src="static/js/materialize.min.js"></script>
+  <script>
+    function outputUpdate(val, id) {
+      document.querySelector('#val_' + id).innerHTML = parseFloat(val).toFixed(2);
+    }
+    function outputUpdateInt(val, id) {
+      document.querySelector('#val_' + id).innerHTML = parseInt(val);
+    }
+  </script>
+
+    <script type="text/javascript" src="static/js/price-range-slider.js"></script>
+
 
   </body>
 </html>
