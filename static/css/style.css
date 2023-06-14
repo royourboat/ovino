@@ -342,7 +342,7 @@ width: 297px;
 height: 370px;
  right: 0;
  top: 0;
- background: url(../images/midil.png);
+ /*background: url(../images/midil.png);*/
  background-repeat: no-repeat;
 }
 .banner_main::before {content: "";
