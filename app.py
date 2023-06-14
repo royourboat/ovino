@@ -40,10 +40,10 @@ class InputForm(FlaskForm):
     submit = SubmitField('Filter')
     search = SubmitField('Search')
     sort_by = SelectField('Sort by', default = 1, choices=[
-                                                (1, 'Price Rating'),
-                                                (2, 'Price (low-high)'),
-                                                (3, 'Price (high-low)'),
-                                                (4, 'Star Rating'),
+                                                (1, 'Recommended Price'),
+                                                (2, 'Star Rating'),
+                                                (3, 'Price (low-high)'),
+                                                (4, 'Price (high-low)'),
                                             ])
 
 @app.route("/", methods=['POST', 'GET'])

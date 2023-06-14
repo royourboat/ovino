@@ -66,11 +66,11 @@ def get_top_wines_from_store(
 
     order_by = "ratio desc"
     if order == 2:
-        order_by = "price asc"
-    elif order == 3:
-        order_by = "price desc"
-    elif order == 4:
         order_by = "ratings_average desc"
+    elif order == 3:
+        order_by = "price asc"
+    elif order == 4:
+        order_by = "price desc"
 
     q = f"""
         DROP TABLE IF EXISTS store_products, store_products_with_sentiment, lcbo_products, ovino_products;
@@ -110,12 +110,13 @@ def get_top_wines_from_store(
             SELECT positives.vivino_id, positives.sku, coalesce(pos,0) AS pos, coalesce(neg,0) AS neg, CAST(pos AS float)/(pos+neg) AS ratio
             FROM positives JOIN negatives
             ON positives.vivino_id = negatives.vivino_id AND positives.sku = negatives.sku
+            WHERE (pos+neg)>={min_sentiment}
         ) AS dum2;
 
         CREATE TEMP TABLE lcbo_products AS
         SELECT * FROM(
             SELECT {', '.join(cols_dict.values())} FROM lcbo.wine 
-                WHERE  price >= {price_min} AND price <= {price_max} AND ratings_average >= {rating_min} AND volume <= 751
+                WHERE  price >= {price_min} AND price <= {price_max} AND ratings_average >= {rating_min} AND volume <= 751 
         ) AS dum3;
 
         CREATE TEMP TABLE ovino_products AS
