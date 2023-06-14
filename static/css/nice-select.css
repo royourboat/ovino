@@ -9,7 +9,7 @@
   clear: both;
   display: block;
   float: left;
-  height: auto;
+  height: 50px;
   outline: none;
   padding-left: 20px;
   padding-right: 35px;
@@ -20,14 +20,15 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  width: 50%;
+  width: 100%;
   cursor: pointer;
   font-family: inherit;
   font-weight: normal;
   line-height: 50px;
-  text-align: left !important;
+  text-align: center !important;
   white-space: nowrap;
   font-weight: 300;
+  margin-top: 4px;
 }
 
 .nice-select:after {
@@ -116,6 +117,7 @@
   box-shadow: 0 0 0 1px rgba(68, 68, 68, 0.11);
   box-sizing: border-box;
   margin-top: 4px;
+  width: 100%;
   opacity: 0;
   overflow: hidden;
   padding: 0;
@@ -147,9 +149,10 @@
   outline: none;
   padding-left: 18px;
   padding-right: 29px;
-  text-align: left;
+  text-align: center;
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
+
 }
 
 .nice-select .option:hover,

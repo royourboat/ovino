@@ -83,11 +83,12 @@ h2 {
 
 h3 {
      font-size: 18px;
-   
+   font-family: 'Poppins',sans-serif;
 }
 
 h4 {
-     font-size: 16px
+     font-size: 16px;
+     font-family: 'Poppins',sans-serif;
 }
 
 h5 {
@@ -783,8 +784,8 @@ label:hover ~ input:checked ~ label /* highlight previous selected stars */ { co
 
 /* Add an active class to highlight the current page */
 .active {
-  background-color: grey;
-  color: white;
+/*  background-color: grey;
+  color: white;  */
 }
 
 /* Hide the link that should open and close the topnav on small screens */
@@ -931,3 +932,17 @@ vertical-align: middle;
   opacity: 1;
   visibility: visible;
 }
+
+
+
+.middle{
+     vertical-align: middle;
+}
+
+
+
+
+
+
+
+
