@@ -6141,14 +6141,14 @@ input[type=tel]:not(.browser-default),
 input[type=number]:not(.browser-default),
 input[type=search]:not(.browser-default),
 textarea.materialize-textarea {
-  background-color: transparent;
-  /* border: none; */
+  /*background-color: transparent;
+   border: none; */
   color: #000000;
   border-bottom: 1px solid #9e9e9e;
   border-radius: 0;
   outline: none;
   height: 3rem;
-  width: 100%;
+  width: 200px;
   font-size: 16px;
   margin: 0 0 8px 0;
   padding: 0;
@@ -6506,6 +6506,7 @@ textarea.materialize-textarea + label:after, .select-wrapper + label:after {
   opacity: 0;
   -webkit-transition: .2s opacity ease-out, .2s color ease-out;
   transition: .2s opacity ease-out, .2s color ease-out;
+
 }
 
 .input-field {
@@ -6660,6 +6661,7 @@ textarea.materialize-textarea + label:after, .select-wrapper + label:after {
   -webkit-transform: none;
           transform: none;
   left: 1rem;
+
 }
 
 .input-field input[type=search] ~ .mdi-navigation-close,
@@ -9130,7 +9132,3 @@ input[type="number"] {
   vertical-align: middle;
   -webkit-tap-highlight-color: transparent;
 }
-
-
-
-

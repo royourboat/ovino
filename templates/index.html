@@ -35,9 +35,6 @@
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
     <link rel="stylesheet" href="./static/css/normalize.css" />
-    <link rel="stylesheet" href="./static/css/skeleton.css" />
-    <link rel="stylesheet" href="cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
 
 </head>
     <style>
@@ -119,10 +116,10 @@
                 <div class="input-field ">
                       
                     {% if my_store %}
-                    <input type="text" name="myaddress" id="myaddress" style="height:10%;width:100%;font-size:25px; font-family: FontAwesome; padding-left: 30px;" value="{{MYADDRESS}}"  />
+                    <input type="text" name="myaddress" id="myaddress" style="width:100%;font-size:25px; font-family: FontAwesome; padding-left: 30px;" value="{{MYADDRESS}}" autocomplete="one-time-code" />
 
                     {% else %}
-                    <input type="text" name="myaddress" id="myaddress" style="height:10%;width:100%;font-size:25px; font-family: FontAwesome; padding-left: 30px;" placeholder="Enter Your Location..."  />
+                    <input type="text" name="myaddress" id="myaddress" style="width:100%;font-size:25px; font-family: FontAwesome; padding-left: 30px;" placeholder="Enter Your Location..." autocomplete="one-time-code" />
                     {%endif%}
                     <label class="label-icon" for="search"><i class="material-icons" style="padding-left: 5px;">search</i></label>
 
@@ -192,23 +189,13 @@
 
  <form action="#" method="GET">
 <div class="row">
-<div class="col-lg-3 col-md-3"  > </div>
-<div class="col-lg-6 col-md-6 col-s12"  >
+<div class="col-lg-2 col-md-2"  > </div>
+<div class="col-lg-8 col-md-8 col-s12"  >
  <ul class="collapsible" >
       <li>
       <div class="collapsible-header"><i class="material-icons" style="font-size: 30px; padding-top: 2px;">tune</i><h2>Filters</h2></div> 
       <div class="collapsible-body #ffffff white ">
         
-
-          <!--
-          <div class="col-lg-6 col-md-6 col-s12">
-          <h2>Number of Price Reviews 
-          <div class="input-field inline" >
-          <input id="pos_count" name="pos_count" type="number" value = {{form.pos_count.data}} style="text-align-last:center; font-size:20px;" oninput="outputUpdateInt(pos_count.value,pos_count.name)">
-          </div>
-          </h2>
-          </div>
-          -->
 
           <div class="row">
               <div class="col-lg-6 col-md-6 col-s12 h4">
@@ -223,7 +210,7 @@
               <div class="col-lg-6 col-md-6 col-s12 h4">
               <h2>Max Price </h2>
               <div class="input-field inline" >
-              <input id="price_max" name="price_max" type="number" value = {{form.price_max.data}} min = {{form.price_min.data+1}} max = "500" style="text-align-last:center; font-size:20px;" oninput="outputUpdateInt(price_max.value,price_max.name)">
+              <input id="price_max" name="price_max" type="number" value = {{form.price_max.data}} min = {{form.price_min.data+1}} max = "1000000" style="text-align-last:center; font-size:20px;" oninput="outputUpdateInt(price_max.value,price_max.name)">
               <label class="label-icon" for="attach_money" style="top: -3px;"><i class="material-icons" style="padding-left: 5px;">attach_money</i></label>
               </div>
               </div>  
@@ -266,7 +253,7 @@
     </li>
   </ul>
 </div>
-<div class="col-lg-3 col-md-3"  > </div>
+<div class="col-lg-2 col-md-2"  > </div>
 </div>
 
  </form>       
@@ -276,7 +263,8 @@
 
 
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-lg-2 col-md-2"  > </div>
+          <div class="col-lg-8 col-md-8">
             <!-- WINE CAROUSEL -->
             {% if len_wine_cards > 0 %} 
             <ol> {%for i in range(len_wine_cards)%} {% set wine_card = wine_cards[i] %} <div class="black_bg">
@@ -333,6 +321,8 @@
             <!-- end FOR LOOP  -->
             <!-- end WINE CAROUSEL -->
           </div>
+          <div class="col-lg-2 col-md-2"  > </div>
+
         </div>
       </div>
 
