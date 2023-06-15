@@ -1,9 +1,302 @@
 <!DOCTYPE html>
-<html>
-  <body>
-   <div class="about">
-     <h1>About me</h1>
-     <p>This is a portfolio site about anything that can be put in a portfolio.</p>
-   </div>
+<html lang="en">
+  <head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- site metas -->
+    <title>OVINO</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- collapsible css -->
+    <link rel="stylesheet" href={{ url_for('static', filename='css/slider/materialize_edited.css') }}>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <!-- style css -->
+    <link rel="stylesheet" href="../static/css/style.css">
+    <!-- Responsive-->
+    <link rel="stylesheet" href="../static/css/responsive.css">
+
+
+    <!-- Tweaks for older IEs-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+    <link rel="stylesheet" href="../static/css/normalize.css" />
+    <link rel="stylesheet" href="../static/css/social_icon.css">
+
+  </head>
+  <style>
+    .checked {
+      color: #ad003b;
+    }
+  </style>
+  <style>
+    .solid_border {
+      border: 1px;
+      border-style: solid;
+      color: bababa;
+    }
+  </style>
+  <style>
+    .btn {
+      font-size: 20px;
+    }
+  </style>
+  <style>
+    ol {
+      margin-left: 1em;
+    }
+
+    ol li {
+      padding-left: 10px;
+      list-style-type: decimal;
+    }
+  </style>
+  <style>
+    .brmedium {
+      display: block;
+      margin-bottom: 1em;
+    }
+
+    /* unvisited link */
+    a:link {
+      color: white;
+    }
+
+    /* visited link */
+    a:visited {
+      color: white;
+    }
+
+    /* mouse over link */
+    a:hover {
+      color: white;
+    }
+
+    /* selected link */
+    a:active {
+      color: blue;
+    }
+
+    .fa-social{
+        font-size: 35px;
+      width: 60px;
+      height: 60px;
+      line-height: 60px;
+      text-align: center;
+      text-align: center;
+      text-decoration: none;
+      margin: 5px 20px;
+      border-radius: 50%;
+      vertical-align: middle;
+    }
+
+  </style>
+  
+  <!-- Javascript -->
+  <script type="text/javascript" src="../static/js/materialize.min.js"></script>
+  <!--[if lt IE 9]>
+                            <!-- Back to top button -->
+  <!-- body -->
+  <body class="main-layout">
+    <!-- loader  --
+       <div align="center"><div class="loader_bg"><div class="loader"><img src="../static/images/loading.gif" align="center"/></div></div></div>
+                              <!-- end loader -->
+    <!-- header -->
+    <header style="margin-top: 5%;">
+      <!-- header inner -->
+      <div class="head_top">
+        <div class="header">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md"></div>
+              <div class="col-md-6 logo_section">
+                <div class="full">
+                  <div class="center-desk">
+                    <div class="logo d-none d-lg-block " style=margin-top:-10%>
+                      <a href="/">
+                        <img src="../static/images/ovino.png" alt="#" />
+                      </a>
+                    </div>
+                    <div class="logo d-block d-lg-none">
+                      <a href="/">
+                        <img src="../static/images/ovino.png" alt="#" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md"></div>
+            </div>
+          </div>
+        </div>
+        <!-- end header inner -->
+        <!-- end header -->
+      </div>
+    </header>
+    <!-- end banner -->
+
+
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-1"></div>
+      <div class="col-lg-6 col-md-6 col-sm-8" style="width:80%;text-align:left;margin: auto;  ">
+        <section class="introduction-section">
+              <h1>Hi, I'm Stephen! </h1>
+
+   
+          
+          <h3> I want to learn about wine but know nothing about it. I made <span class="checked">OVINO</span> which crowdsources wine reviews and recommends which bottles are priced very well. <br>
+            <br>
+          </h3>
+        </section>
+
+        <section class="problem-section">
+          <h1> The problem.</h1>
+          <h3>I refuse to strain my eyes reading <font size=1px> tiny terse descriptions </font> about randomly priced bottles organized in one of thirty aisle all to be ripped off in the end by a deceptively pretty wine label.<br><br>
+          </h3>
+        </section>
+
+        <section class="recommender-section">
+          <h1>The recommender.</h1>
+          <h3>
+            <a href="https://www.vivino.com" style="color:blue">Vivino</a> is a very popular wine app containing millions of wines. Many of the wines have over 100,000 reviews! <br>
+            <br> I noticed approximately 0.5% of reviews contains the price a user paid and their sentiment for that price. I use this information to find wines with very high price sentiment at the LCBO. Click on the diagram below for an overview.
+          </h3>
+          <a href="../static/images/price_sentiment_diagram.png">
+            <img src="../static/images/price_sentiment_diagram.png" />
+          </a>
+          <h3> I also noticed that the LCBO provides both the sugar content and ABV for most bottles. Since sugar and alcohol make up most of the calories, I provide an estimate for each bottle's total calories. </h3>
+        </section>
+        <section class="how-section">
+          <h1>The how.</h1>
+          <h2> Step one: web-scraping. </h2>
+          <h4> I wrote a gentle <a href="https://github.com/royourboat/lcbo-wine-scraper" style="color:blue">automated web-scraper</a> for the LCBO website using github actions. It collects product features (e.g., price, description, etc.), product inventory, and store location and hours. There are approximately 9,400 wine and 4,100 non-wine registered LCBO products. "Non-wine" products can include beer, liquor, and reusuable bags. Only 2,800 wines and 2,100 non-wines are purchasable as of 5/14/2023. <br>
+            <br> For each purchasable bottle of wine, I gently collect the reviews from Vivino using their API. About 10 million reviews were collected in total. <br>
+            <br>
+          </h4>
+          <h2> Step two: pre-processing. </h2>
+          <h4> The LCBO data is cleaned and pruned. I identify Vivino reviews that discuss prices paid using Natural Language Processing (NLP). This process extracts approximately 55,000 reviews from the pool of 10 million. <br>
+            <br> One surprise was the number of features provided in the raw data from Vivino that I have yet to tap. For my purposes, I pruned the 36.5 GB(!!) dataset to 7 GB by stripping redundant features. Selecting reviews written in English and containing price information left me 66 MB of data. While small, a lot can still be done with 55,000 price reviews. <br>
+            <br>
+          </h4>
+          <h2> Step three: machine learning. </h2>
+          <h4> I constructed training set data by labeling wine reviews with the user's price sentiment (e.g., positive, negative, neutral, don't know). I trained a bag-of-words model (91% acc.) on the training set using scikit-learn and machine learning techniques. Using my model, I produced price sentiment scores for the remaining unseen price reviews. The score is a number between 0 and 1 and tells us how likely the model believes the label is correct. After inspecting the distribution of reviews, I apply threshold scores to label whether a review is positive or negative. Any scores outside of this threshold are discarded. <br>
+            <br> A bag-of-words model looks at a given document (e.g., a review), removes words with little information (e.g., the, and, a, like), and tries to build a relationship between the remaining words and the assigned label (e.g., "positive"). Monograms and bigrams capture most of the decisive information (e.g., positive = ["excellent", good value", "amazing", "worth it", "buy again", ...]). Trigrams and higher returns high computational expense and very little improvement in model performance. <br>
+            <br> For fun, I'm excited to be working on Large Language Models (LLMs) to better identify the price sentiments in reviews. I'm sure there are many low signal or unseen features in the remaining 10 million reviews I have! These unsupervised learning models have remarkable strengths. But, simpler and faster machine learning models like bag-of-words can still perform remarkably well and is sufficient for our goals! <br>
+            <br>
+          </h4>
+          <h2> Step four: database management. </h2>
+          <h4> All of the wine data and price sentiment labels are housed on my PostgreSQL database. I periodically scrape the LCBO website and automatically update the database. This is done primarily to ensure the products shown on <span class="checked">OVINO</span> are available in stores and have up-to-date prices. <br>
+            <br>
+          </h4>
+          <h2> Step five: app. </h2>
+          <h4> The list of wines recommended on <span class="checked">OVINO</span> is generated with a PostgreSQL query to my database and with Flask, python, HTML, CSS, and javascript.<br><br> </h4>
+        </section>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-1"></div>
+    </div>
+    <!--  footer -->
+    <footer class="page-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col l6  s12">
+            <h4 class="white-text"></h4>
+              <a href="https://www.linkedin.com/in/stephenro/" class="fa fa-social fa-linkedin"></a>
+              <a href="https://github.com/royourboat" class="fa fa-social fa-github" style="color:#171515; font-size:70px;"></a>
+              <a href="https://royourboat.github.io/" class="fa fa-social fa-user" ></a>
+          </div>
+          <div class="col l6 s12">
+            
+                <a href="{{url_for('about')}}" style="font-size:40px">About</a>
+              
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container"> Stephen Ro © 2023 Copyright </div>
+      </div>
+    </footer>
+    <!-- end footer -->
+    <!-- Javascript files-->
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/backtotopbutton.js"></script>
+    <script src="../static/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/js/jquery-3.0.0.min.js"></script>
+    <script src="../static/js/plugin.js"></script>
+    <!-- sidebar -->
+    <script src="../static/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="../static/js/custom.js"></script>
+    <script src="../static/js/pagination.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.collapsible');
+        var instances = M.Collapsible.init(elems, {});
+      });
+      document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems, options);
+      });
+
+      function outputUpdate(val, id) {
+        document.querySelector('#val_' + id).innerHTML = parseFloat(val).toFixed(1);
+      }
+
+      function outputUpdateInt(val, id) {
+        document.querySelector('#val_' + id).innerHTML = parseInt(val);
+      }
+    </script>
+    <script>
+      $(function() {
+        $(function() {
+          $('#pagination-long').materializePagination({
+            align: 'center',
+            lastPage: {
+              {
+                total_num_pages
+              }
+            },
+            firstPage: 1,
+            urlParameter: 'page',
+            useUrlParameter: true,
+            onClickCallback: function(requestedPage) {
+              console.log('Requested page from #pagination-long: ' + requestedPage);
+            }
+          });
+        });
+      });
+    </script>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const page = urlParams.get('page');
+      const submit = urlParams.get('submit');
+      var element_to_scroll_to = document.getElementById('anchor-filter');
+      if (page > 1 || submit) {
+        element_to_scroll_to.scrollIntoView({
+          behavior: "instant"
+        });
+      }
+    </script>
+    <!-- script to set display property -->
+    <script>
+      // Get the img object using its Id
+      img = document.getElementById("img1");
+      // Function to increase image size
+      function enlargeImg() {
+        // Set image size to 1.5 times original
+        img.style.transform = "scale(1.5)";
+        // Animation effect
+        img.style.transition = "transform 0.25s ease";
+      }
+      // Function to reset image size
+      function resetImg() {
+        // Set image size to original
+        img.style.transform = "scale(1)";
+        img.style.transition = "transform 0.25s ease";
+      }
+    </script>
   </body>
 </html>

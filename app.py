@@ -44,6 +44,7 @@ class InputForm(FlaskForm):
                                                 (2, 'Star Rating'),
                                                 (3, 'Price (low-high)'),
                                                 (4, 'Price (high-low)'),
+                                                (5, 'Calories (low-high)'),
                                             ])
 
 @app.route("/", methods=['POST', 'GET'])
@@ -105,8 +106,6 @@ def index():
         
         TOTAL_NUM_PAGES = TOTAL_NUM_WINES/MAX_WINES_PER_PAGE
         TOTAL_NUM_PAGES = int(-(-TOTAL_NUM_PAGES // 1))
-
-        print(TOTAL_NUM_WINES, TOTAL_NUM_PAGES)
 
 
     #Define google maps parameters for googlemaps api.
