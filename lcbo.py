@@ -71,6 +71,8 @@ def get_top_wines_from_store(
         order_by = "price asc"
     elif order == 4:
         order_by = "price desc"
+    elif order == 5:
+        order_by = "calories asc"
 
     q = f"""
         DROP TABLE IF EXISTS store_products, store_products_with_sentiment, lcbo_products, ovino_products;
