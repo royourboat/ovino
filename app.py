@@ -13,7 +13,7 @@ from flask_wtf.csrf import CSRFProtect
 
 
 API_KEY = os.getenv("GOOGLE_API_KEY") # google api key for ovino
-url = os.getenv("DATABASE_URL")  # postgres database
+url = os.getenv("AUTOVINO_URL")  # postgres database
 
 app = Flask(__name__, template_folder="templates")
 app.config['SECRET_KEY'] = os.urandom(32)
