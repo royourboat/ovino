@@ -9,11 +9,8 @@ from wtforms.fields import DecimalRangeField, IntegerRangeField, IntegerField, D
 from wtforms.fields import SubmitField, SelectField
 from flask_wtf.csrf import CSRFProtect
 
-
-
 API_KEY = os.getenv("GOOGLE_API_KEY") # google api key for ovino
 sql_address = os.getenv("AUTOVINO_URL")  # postgres database
-
 
 app = Flask(__name__, template_folder="templates")
 app.config['SECRET_KEY'] = os.urandom(32)
@@ -27,7 +24,6 @@ MYLNG = -84.5  # Anchor coordinate
 
 with open('dark_mode.json') as d:
     dark_data = json.load(d)
-
 
 # form to collect user input:
 class InputForm(FlaskForm):
@@ -76,20 +72,19 @@ def index():
         if len(closest_stores)>0:
             fit_markers_to_bounds = True
         
-        for store in closest_stores: #Add a marker for each store on google maps
-            markers.append({
-                "icon": "/static/images/google_map_icon.png",
-                "lat" : store['lat'],
-                "lng" : store['lng'],
-                "title": "LCBO",
-                "infobox": (
-                    '<div jstcache="3" class="title full-width" jsan="7.title,7.full-width"><b><b>LCBO</b></b></div>'
-                    f'<div jstcache="4" jsinstance="0" class="address-line full-width" jsan="7.address-line,7.full-width">{store["address"]}</div>'
-                    f'<div jstcache="4" jsinstance="*1" class="address-line full-width" jsan="7.address-line,7.full-width">{store["city"]}</div>'
-                    f'<div jstcache="4" jsinstance="*1" class="address-line full-width" jsan="7.address-line,7.full-width">{store["phone"]}</div>'
-                    ),
-            })
-
+        my_store = closest_stores[0]
+        markers.append({
+            "icon": "/static/images/google_map_icon.png",
+            "lat" : my_store['lat'],
+            "lng" : my_store['lng'],
+            "title": "LCBO",
+            "infobox": (
+                '<div jstcache="3" class="title full-width" jsan="7.title,7.full-width"><b><b>LCBO</b></b></div>'
+                f'<div jstcache="4" jsinstance="0" class="address-line full-width" jsan="7.address-line,7.full-width">{my_store["address"]}</div>'
+                f'<div jstcache="4" jsinstance="*1" class="address-line full-width" jsan="7.address-line,7.full-width">{my_store["city"]}</div>'
+                f'<div jstcache="4" jsinstance="*1" class="address-line full-width" jsan="7.address-line,7.full-width">{my_store["phone"]}</div>'
+                ),
+        })
         
         markers.append({ #Add user location
             "icon": "/static/images/gold_person.png",
@@ -99,8 +94,7 @@ def index():
             "infobox": ('<div jstcache="3" class="title full-width" jsan="7.title,7.full-width"><b><b>You</b></b></div>' ),
         })
         
-
-        wine_cards, my_store = lcbo.get_wine_cards_from_closest_store(sql_address, coord['lat'], coord['lng'],  page= PAGE, wines_per_page = MAX_WINES_PER_PAGE, form = form)
+        wine_cards = lcbo.get_wine_cards_from_closest_store(sql_address, my_store, coord['lat'], coord['lng'],  page= PAGE, wines_per_page = MAX_WINES_PER_PAGE, form = form)
         TOTAL_NUM_WINES = 0
         if wine_cards:
             TOTAL_NUM_WINES = wine_cards[0]['total_count']

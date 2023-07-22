@@ -45,6 +45,22 @@ def get_top_wines_from_store(
         form = None
     ):
    
+   
+    cols = [
+        'name',
+        'varietal',
+        'category',
+        'region',
+        'country',
+        'brand',
+        'url_thumbnail',
+        'description',
+        'abv',
+        'calories',
+        'volume',
+        'sku',
+    ]
+   
     order_dict = {
         1: 'positivity desc',
         2: 'votes desc',
@@ -67,7 +83,6 @@ def get_top_wines_from_store(
 
     order_by = order_dict[order]
 
-
     q = f"""
         DROP VIEW IF EXISTS num_store_products;
         DROP VIEW IF EXISTS store_products_sentiment;
@@ -83,7 +98,7 @@ def get_top_wines_from_store(
         CREATE VIEW store_products AS
         SELECT * FROM (
             -- Get product details, if products available in store
-            SELECT * FROM products
+            SELECT * FROM (SELECT {', '.join(cols)} FROM products) as dummy
             INNER JOIN (
                 SELECT sku, promo_price_cents FROM prices
                 INNER JOIN (
@@ -139,17 +154,10 @@ def get_top_wines_from_store(
         ORDER BY rownumber
         limit {limit};
     """
+
     wine_cards, cols = query(sql_address, q)
     wine_cards = [dict(zip(cols,s)) for s in wine_cards ]
-    
-    q = """
-        DROP VIEW IF EXISTS num_store_products;
-        DROP VIEW IF EXISTS store_products_sentiment;
-        DROP VIEW IF EXISTS store_products;
-        DROP VIEW IF EXISTS available_products;
-        """
-    command(sql_address, q)
-    
+
     for wine_card in wine_cards:
         wine_card['price'] = wine_card['promo_price_cents']/100.
         wine_card['url_thumbnail'] = wine_card['url_thumbnail'].replace('319.319', '1280.1280')
@@ -160,16 +168,15 @@ def get_top_wines_from_store(
             wine_card['made_in'] = f"{wine_card['region']}, {wine_card['country']}"
         else:
             wine_card['made_in'] = f"{wine_card['country']}"
-        
     return wine_cards
 
-def get_wine_cards_from_closest_store(sql_address, lat, lng, limit = 50, wines_per_page = 25,
+def get_wine_cards_from_closest_store(sql_address, my_store, lat, lng, limit = 50, wines_per_page = 25,
         page = 1, form=None):
-    store = closest_stores(sql_address, lat, lng, max_stores = 1, max_distance = 100)[0]
-    store_id = store['store_id']
+    
+    store_id = my_store['store_id']
     
     wine_cards = get_top_wines_from_store(sql_address, store_id, limit = limit, wines_per_page = wines_per_page,
         page = page,  form = form)
 
-    return wine_cards, store
+    return wine_cards
     
