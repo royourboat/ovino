@@ -86,6 +86,11 @@ def get_top_wines_from_store(
             SELECT * FROM products
             INNER JOIN (
                 SELECT sku, promo_price_cents FROM prices
+                INNER JOIN (
+					SELECT sku, MAX(checktime) AS checktime FROM prices
+					GROUP BY sku
+				) as recent_prices
+				USING (sku, checktime)
             ) as pr
             USING (sku)
             INNER JOIN (
@@ -134,16 +139,15 @@ def get_top_wines_from_store(
         ORDER BY rownumber
         limit {limit};
     """
-
     wine_cards, cols = query(sql_address, q)
     wine_cards = [dict(zip(cols,s)) for s in wine_cards ]
     
-    q = f"""
+    q = """
         DROP VIEW IF EXISTS num_store_products;
         DROP VIEW IF EXISTS store_products_sentiment;
         DROP VIEW IF EXISTS store_products;
         DROP VIEW IF EXISTS available_products;
-    """
+        """
     command(sql_address, q)
     
     for wine_card in wine_cards:
