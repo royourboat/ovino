@@ -10,8 +10,10 @@ from wtforms.fields import SubmitField, SelectField
 from flask_wtf.csrf import CSRFProtect
 
 
+
 API_KEY = os.getenv("GOOGLE_API_KEY") # google api key for ovino
 sql_address = os.getenv("AUTOVINO_URL")  # postgres database
+
 
 app = Flask(__name__, template_folder="templates")
 app.config['SECRET_KEY'] = os.urandom(32)
@@ -105,12 +107,7 @@ def index():
 
         TOTAL_NUM_PAGES = TOTAL_NUM_WINES/MAX_WINES_PER_PAGE
         TOTAL_NUM_PAGES = int(-(-TOTAL_NUM_PAGES // 1))
-        
-        print(wine_cards[0:3])
-        print(TOTAL_NUM_WINES)
-        print(TOTAL_NUM_PAGES)
-
-
+                
     #Define google maps parameters for googlemaps api.
     sndmap = Map(
         identifier="sndmap",
