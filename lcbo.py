@@ -45,7 +45,6 @@ def get_top_wines_from_store(
         form = None
     ):
    
-   
     cols = [
         'name',
         'varietal',
