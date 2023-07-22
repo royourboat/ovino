@@ -65,8 +65,8 @@ def get_top_wines_from_store(
         1: 'positivity desc',
         2: 'votes desc',
         3: 'ratings_average desc',
-        4: 'price asc',
-        5: 'price desc',
+        4: 'promo_price_cents asc',
+        5: 'promo_price_cents desc',
         6: 'calories asc',
     }
     
@@ -74,10 +74,13 @@ def get_top_wines_from_store(
     price_max = 5000.
     rating_min = 1.
     order = 1
+    price_delta = 0.05
 
     if form:
-        price_min = float(form.price_min.data)*0.95
-        price_max = float(form.price_max.data)*1.05
+        if form.price_min.data:
+            price_min = float(form.price_min.data)*(1 - price_delta)
+        if form.price_max.data:
+            price_max = float(form.price_max.data)*(1 + price_delta)
         rating_min = float(form.rating_min.data)
         order = int(form.sort_by.data)
 
