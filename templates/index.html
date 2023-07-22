@@ -229,7 +229,7 @@
                       </h2>
                       <div class="slidecontainer">
                         <p class="range-field">
-                          <input id="rating_min" min="1.0" max="4.6" name="rating_min" oninput="outputUpdate(rating_min.value,rating_min.name)" step="0.4" type="range" value={{form.rating_min.data}} style="margin-top:  20px; ">
+                          <input id="rating_min" min="1.0" max="4.2" name="rating_min" oninput="outputUpdate(rating_min.value,rating_min.name)" step="0.2" type="range" value={{form.rating_min.data}} style="margin-top:  20px; ">
                         </p>
                       </div>
                     </div>
@@ -267,16 +267,16 @@
                 <div class="col-md-4">
                   <div class="store_box ">
                     <figure>
-                      <img src={{wine_card['image']}} style="width:100%;" />
+                      <img src={{wine_card['url_thumbnail']}} style="width:100%;" />
                     </figure>
                   </div>
                 </div>
                 <div class="col-md-8">
                   <div class="store_box ">
                     <h3>{{wine_card['name']}}</h3>
-                    <h4>{{wine_card['varietal']}}
+                    <h4>{{wine_card['varietal']}}, {{wine_card['category']}}
                       <br> Made in {{wine_card['made_in']}}
-                      <br>By {{wine_card['by']}}
+                      <br>By {{wine_card['brand']}}
                     </h4>
                     <h3 style="padding-top: 20px;">
                       <font color="#ad003b">{{"${:.2f}".format( wine_card['price'] )}} </font>
@@ -302,8 +302,8 @@
                       {{wine_card['description'].strip()}}
                       <br>
                       <br>
-                      {{wine_card['abv']}}% ABV <br>
-                      {{"%d"%(wine_card['calories']) }} Cal per {{wine_card['volume']}} {{wine_card['volume_unit']}} {{wine_card['container']}}
+                      {{"{:.1f}".format( wine_card['abv'])}}% ABV <br>
+                      {{"%d"%(wine_card['calories']) }} Cal per {{wine_card['volume']}} ml bottle
                     </h4>
                     <!--                            <a class="read_more" href={{wine_card['details_url']}}>See LCBO SKU#{{wine_card['sku']}}</a>    -->
                   </div>
@@ -394,11 +394,7 @@
         $(function() {
           $('#pagination-long').materializePagination({
             align: 'center',
-            lastPage: {
-              {
-                total_num_pages
-              }
-            },
+            lastPage: {{total_num_pages}},
             firstPage: 1,
             urlParameter: 'page',
             useUrlParameter: true,

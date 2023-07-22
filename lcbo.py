@@ -11,13 +11,13 @@ def query(sql_address, q):
     return tbl, column_names
 
 def closest_stores(sql_address, lat, lon, max_distance=20, max_stores=3):
-    get_cols = ['latitude', 'longitude', 'lcbo_id', 'name', 'address', 'city', 'phone_number']
+    get_cols = ['lat', 'lng', 'store_id', 'name', 'address', 'city', 'phone']
     q = f"""
             SELECT *, 6371.0*2.0*asin(sqrt(sin(0.5*(lat2-lat1))^2 + cos(lat1)*cos(lat2)*sin(0.5*(lon2-lon1))^2  )) AS distance FROM (
                 SELECT {', '.join(get_cols)}, 
                 radians({lat}) AS lat1, radians({lon}) AS lon1, 
-                radians(latitude) AS lat2, 
-                radians(longitude) AS lon2 FROM lcbo.stores
+                radians(lat) AS lat2, 
+                radians(lng) AS lon2 FROM stores
             ) AS dum
             ORDER BY distance
             LIMIT {max_stores};
@@ -25,135 +25,131 @@ def closest_stores(sql_address, lat, lon, max_distance=20, max_stores=3):
     """
     stores, cols = query(sql_address, q)    
     stores = [dict(zip(get_cols,store)) for store in stores ]
-
     return stores
 
 
 def get_top_wines_from_store(
         sql_address, 
-        lcbo_id, 
-        min_sentiment=8, 
-        pos_limit = 0.7, 
-        neg_limit=0.3, 
+        store_id, 
+        min_votes=8, 
         limit = 100, 
-        pos_price_diff_range=[0.9,100], 
-        neg_price_diff_range = [0, 1.1],
         wines_per_page = 25,
         page = 1,
         form = None
     ):
-
-    cols = ['name', 'made_in', 'by', 'price', 
-                'description', 'abv', 'volume', 'volume_unit', 
-                'container', 'varietal', 'calories', 'image',
-                'ratings_average', 'ratings_count', 'sku',
-               ]
+   
+    order_dict = {
+        1: 'positivity desc',
+        2: 'votes desc',
+        3: 'ratings_average desc',
+        4: 'price asc',
+        5: 'price desc',
+        6: 'calories asc',
+    }
     
-    cols_dict = dict(zip(cols,cols))
-    cols_dict['description'] =  "COALESCE(description,'No description available') AS description"
-    cols_dict['image'] = "REPLACE(image, '319.319', '1280.1280') AS image" #higher resolution images
-    #cols_dict['image'] = "image" #low res
-
     price_min = 1.
     price_max = 5000.
     rating_min = 1.
     order = 1
+
     if form:
-        price_min = float(form.price_min.data)
-        price_max = float(form.price_max.data)
+        price_min = float(form.price_min.data)*0.95
+        price_max = float(form.price_max.data)*1.05
         rating_min = float(form.rating_min.data)
         order = int(form.sort_by.data)
 
-    order_by = "ratio desc"
-    if order == 2:
-        order_by = "ratings_average desc"
-    elif order == 3:
-        order_by = "price asc"
-    elif order == 4:
-        order_by = "price desc"
-    elif order == 5:
-        order_by = "calories asc"
+    order_by = order_dict[order]
+
 
     q = f"""
-        DROP TABLE IF EXISTS store_products, store_products_with_sentiment, lcbo_products, ovino_products;
-        CREATE TEMP TABLE store_products AS
+        DROP VIEW IF EXISTS num_store_products;
+        DROP VIEW IF EXISTS store_products_sentiment;
+        DROP VIEW IF EXISTS store_products;
+        DROP VIEW IF EXISTS available_products;
+
+
+        CREATE VIEW available_products AS
+        SELECT SKU FROM inventory
+        WHERE store_id = {store_id} and quantity > 0;
+
+        -- Reminder: Use "USING" instead of a.sku = b.sku when joining in VIEW. 
+        CREATE VIEW store_products AS
         SELECT * FROM (
-            WITH viv AS (
-                WITH ont AS (
-                    SELECT distinct vivino_id, sku FROM lcbo.store_{lcbo_id}
-                )
-                SELECT reviews, positivity, price AS user_price, vivino.reviews.vivino_id, ont.sku, "wine.country" AS country FROM vivino.reviews
-                INNER JOIN ont
-                ON ont.vivino_id = vivino.reviews.vivino_id 
-            ),
-            wine AS (
-                SELECT price, vivino_id, sku, made_in FROM lcbo.wine
-            )
-            SELECT viv.reviews, viv.positivity, viv.vivino_id, viv.sku, price, user_price, country, made_in
-            FROM viv 
-            INNER JOIN wine
-            ON viv.vivino_id = wine.vivino_id AND viv.sku = wine.sku
-            WHERE made_in LIKE CONCAT('%', country, '%')
+            -- Get product details, if products available in store
+            SELECT * FROM products
+            INNER JOIN (
+                SELECT sku, promo_price_cents FROM prices
+            ) as pr
+            USING (sku)
+            INNER JOIN (
+                SELECT sku, vivid2 FROM index_matches
+                WHERE vivid2 IS NOT NULL
+            ) as im
+            USING (sku)
+            INNER JOIN (
+                SELECT sku FROM available_products
+            ) as ap
+            USING (sku)
+            INNER JOIN(
+                SELECT * FROM vivino_lcbo_ratings
+            ) as vlr
+            USING (vivid2)
             
-        ) AS dum;
+        ) as dum;
 
-        CREATE TEMP TABLE store_products_with_sentiment AS
-        SELECT * FROM (
-            WITH positives AS (
-                SELECT vivino_id, sku, COUNT(*) AS pos FROM store_products
-                WHERE positivity > 0.7
-                group by vivino_id, sku
-            ),
-            negatives AS (
-                SELECT vivino_id, sku, COUNT(*) AS neg FROM store_products
-                WHERE positivity < 0.3
-                group by vivino_id, sku
-            )
-            SELECT positives.vivino_id, positives.sku, coalesce(pos,0) AS pos, coalesce(neg,0) AS neg, CAST(pos AS float)/(pos+neg) AS ratio
-            FROM positives JOIN negatives
-            ON positives.vivino_id = negatives.vivino_id AND positives.sku = negatives.sku
-            WHERE (pos+neg)>={min_sentiment}
-        ) AS dum2;
-
-        CREATE TEMP TABLE lcbo_products AS
-        SELECT * FROM(
-            SELECT {', '.join(cols_dict.values())} FROM lcbo.wine 
-                WHERE  price >= {price_min} AND price <= {price_max} AND ratings_average >= {rating_min} AND volume <= 751 
-        ) AS dum3;
-
-        CREATE TEMP TABLE ovino_products AS
-        SELECT * FROM (
-            SELECT *
-            FROM store_products_with_sentiment
-            JOIN lcbo_products using (sku)
-        ) AS dum4
-        ORDER BY {order_by}
-        ;
-
-        CREATE TEMP TABLE ovino_products_count AS
-        SELECT COUNT(*) AS len FROM ovino_products;
-
-        ALTER TABLE ovino_products ADD id serial;
-        ALTER TABLE ovino_products ADD column total_count integer;
-        UPDATE ovino_products set total_count = len FROM ovino_products_count;
+        CREATE VIEW store_products_sentiment AS (
+            SELECT * FROM (
+                SELECT *, (pos+neg) as votes, CAST(pos AS float)/(pos+neg) AS positivity FROM (
+                    SELECT sku, SUM(sentiment_pos) AS pos, SUM(sentiment_neg) AS neg
+                    FROM vivino_lcbo_sentiment
+                    GROUP BY sku
+                ) as wine_sentiments
+                INNER JOIN (
+                    SELECT * FROM store_products
+                ) AS sp 
+                using (sku)
+            ) as ddum
+            WHERE votes > {min_votes}
+            AND promo_price_cents >= {int(price_min*100)}
+            AND promo_price_cents <= {int(price_max*100)}
+            AND ratings_average >= {rating_min}
+            ORDER BY {order_by}
+        ) ;
         
-        SELECT * FROM ovino_products
-        WHERE id >= {(page - 1) * wines_per_page + 1} AND id < {page * wines_per_page  + 1}
-        ORDER BY id
+        CREATE VIEW num_store_products AS
+        SELECT COUNT(*) AS total_count FROM store_products_sentiment;
+        
+        SELECT * FROM (
+            SELECT ROW_NUMBER() OVER () as rownumber, * FROM store_products_sentiment
+            CROSS JOIN num_store_products
+        ) as dum
+        WHERE rownumber >= {(page - 1) * wines_per_page + 1} AND rownumber < {page * wines_per_page  + 1}
+        ORDER BY rownumber
         limit {limit};
-        
-        """
+    """
 
-    wine_cards, cols = query(sql_address,q)
+    wine_cards, cols = query(sql_address, q)
     wine_cards = [dict(zip(cols,s)) for s in wine_cards ]
+    
+    for wine_card in wine_cards:
+        wine_card['price'] = wine_card['promo_price_cents']/100.
+        wine_card['url_thumbnail'] = wine_card['url_thumbnail'].replace('319.319', '1280.1280')
+        if not wine_card['description']:
+            wine_card['description'] = 'No description available'
+        
+        if wine_card['region']:
+            wine_card['made_in'] = f"{wine_card['region']}, {wine_card['country']}"
+        else:
+            wine_card['made_in'] = f"{wine_card['country']}"
+        
     return wine_cards
 
-def get_wine_cards_from_closest_store(sql_address, lat, lon, limit = 50, wines_per_page = 25,
+def get_wine_cards_from_closest_store(sql_address, lat, lng, limit = 50, wines_per_page = 25,
         page = 1, form=None):
-    store = closest_stores(sql_address, lat, lon, max_stores = 1, max_distance = 100)[0]
-    lcbo_id = store['lcbo_id']
+    store = closest_stores(sql_address, lat, lng, max_stores = 1, max_distance = 100)[0]
+    store_id = store['store_id']
     
-    wine_cards = get_top_wines_from_store(sql_address, lcbo_id, limit = limit, wines_per_page = wines_per_page,
+    wine_cards = get_top_wines_from_store(sql_address, store_id, limit = limit, wines_per_page = wines_per_page,
         page = page,  form = form)
 
     return wine_cards, store
