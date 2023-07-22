@@ -10,6 +10,13 @@ def query(sql_address, q):
 
     return tbl, column_names
 
+def command(sql_address, q):
+    connection = psycopg2.connect(sql_address)
+    cur = connection.cursor()
+    cur.execute(q)
+    connection.commit()
+    connection.close()
+
 def closest_stores(sql_address, lat, lon, max_distance=20, max_stores=3):
     get_cols = ['lat', 'lng', 'store_id', 'name', 'address', 'city', 'phone']
     q = f"""
@@ -130,6 +137,14 @@ def get_top_wines_from_store(
 
     wine_cards, cols = query(sql_address, q)
     wine_cards = [dict(zip(cols,s)) for s in wine_cards ]
+    
+    q = f"""
+        DROP VIEW IF EXISTS num_store_products;
+        DROP VIEW IF EXISTS store_products_sentiment;
+        DROP VIEW IF EXISTS store_products;
+        DROP VIEW IF EXISTS available_products;
+    """
+    command(sql_address, q)
     
     for wine_card in wine_cards:
         wine_card['price'] = wine_card['promo_price_cents']/100.
