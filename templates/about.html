@@ -149,14 +149,24 @@
 
    
           
-          <h3> I want to learn about wine but know nothing about it. I made <span class="checked">OVINO</span> which crowdsources wine reviews and recommends which bottles are priced very well. <br>
+          <h3> 
+            
+            I made this app called OVINO to help me discover awesome wines that are priced well. It's pretty neat - OVINO goes through millions of wine reviews and picks out the ones talking about prices. So, if you're on the hunt for some tasty and budget-friendly wines, give OVINO a try! <br>
             <br>
+
+            If you'd like to learn more, continue reading below! I go into a lot more detail on <a href="https://royourboat.github.io/" style="color:blue">my blog</a>. 
+
           </h3>
         </section>
 
         <section class="problem-section">
           <h1> The problem.</h1>
-          <h3>I refuse to strain my eyes reading <font size=1px> tiny terse descriptions </font> about randomly priced bottles organized in one of thirty aisle all to be ripped off in the end by a deceptively pretty wine label.<br><br>
+          <h3>My eyes hurt from reading <font size=1px> tiny terse descriptions </font> about randomly priced bottles in one of thirty aisles. I just end up buying the coolest looking bottle which is fun but a risky $20. 
+            
+          The LCBO app is also clunky, aggressive about your location, and has very few ratings available. It isn't very helpful for me. 
+
+            
+
           </h3>
         </section>
 
@@ -164,38 +174,15 @@
           <h1>The recommender.</h1>
           <h3>
             <a href="https://www.vivino.com" style="color:blue">Vivino</a> is a very popular wine app containing millions of wines. Many of the wines have over 100,000 reviews! <br>
-            <br> I noticed approximately 0.5% of reviews contains the price a user paid and their sentiment for that price. I use this information to find wines with very high price sentiment at the LCBO. Click on the diagram below for an overview.
+            <br> I noticed about 1 in 200 reviews talk about whether the price they paid is good, bad, or decent. My idea is - what if I compare LCBO's price to what everyone else paid! If a lot of people paid more and enjoyed it then maybe it's a good deal! Here's a diagram of the idea.
           </h3>
           <a href="../static/images/price_sentiment_diagram.png">
             <img src="../static/images/price_sentiment_diagram.png" />
           </a>
-          <h3> I also noticed that the LCBO provides both the sugar content and ABV for most bottles. Since sugar and alcohol make up most of the calories, I provide an estimate for each bottle's total calories. </h3>
+          <h3> Bonus idea: I noticed the LCBO provides both the sugar content and ABV for most bottles. Sugar and alcohol make up most of the calories. So, I provide an estimate for each bottle's total calories. This is an estimate! I am not nutritionist.  </h3>
         </section>
-        <section class="how-section">
-          <h1>The how.</h1>
-          <h2> Step one: web-scraping. </h2>
-          <h4> I wrote a gentle <a href="https://github.com/royourboat/lcbo-wine-scraper" style="color:blue">automated web-scraper</a> for the LCBO website using github actions. It collects product features (e.g., price, description, etc.), product inventory, and store location and hours. There are approximately 9,400 wine and 4,100 non-wine registered LCBO products. "Non-wine" products can include beer, liquor, and reusuable bags. Only 2,800 wines and 2,100 non-wines are purchasable as of 5/14/2023. <br>
-            <br> For each purchasable bottle of wine, I gently collect the reviews from Vivino using their API. About 10 million reviews were collected in total. <br>
-            <br>
-          </h4>
-          <h2> Step two: pre-processing. </h2>
-          <h4> The LCBO data is cleaned and pruned. I identify Vivino reviews that discuss prices paid using Natural Language Processing (NLP). This process extracts approximately 55,000 reviews from the pool of 10 million. <br>
-            <br> One surprise was the number of features provided in the raw data from Vivino that I have yet to tap. For my purposes, I pruned the 36.5 GB(!!) dataset to 7 GB by stripping redundant features. Selecting reviews written in English and containing price information left me 66 MB of data. While small, a lot can still be done with 55,000 price reviews. <br>
-            <br>
-          </h4>
-          <h2> Step three: machine learning. </h2>
-          <h4> I constructed training set data by labeling wine reviews with the user's price sentiment (e.g., positive, negative, neutral, don't know). I trained a bag-of-words model (91% acc.) on the training set using scikit-learn and machine learning techniques. Using my model, I produced price sentiment scores for the remaining unseen price reviews. The score is a number between 0 and 1 and tells us how likely the model believes the label is correct. After inspecting the distribution of reviews, I apply threshold scores to label whether a review is positive or negative. Any scores outside of this threshold are discarded. <br>
-            <br> A bag-of-words model looks at a given document (e.g., a review), removes words with little information (e.g., the, and, a, like), and tries to build a relationship between the remaining words and the assigned label (e.g., "positive"). Monograms and bigrams capture most of the decisive information (e.g., positive = ["excellent", good value", "amazing", "worth it", "buy again", ...]). Trigrams and higher returns high computational expense and very little improvement in model performance. <br>
-            <br> For fun, I'm excited to be working on Large Language Models (LLMs) to better identify the price sentiments in reviews. I'm sure there are many low signal or unseen features in the remaining 10 million reviews I have! These unsupervised learning models have remarkable strengths. But, simpler and faster machine learning models like bag-of-words can still perform remarkably well and is sufficient for our goals! <br>
-            <br>
-          </h4>
-          <h2> Step four: database management. </h2>
-          <h4> All of the wine data and price sentiment labels are housed on my PostgreSQL database. I periodically scrape the LCBO website and automatically update the database. This is done primarily to ensure the products shown on <span class="checked">OVINO</span> are available in stores and have up-to-date prices. <br>
-            <br>
-          </h4>
-          <h2> Step five: app. </h2>
-          <h4> The list of wines recommended on <span class="checked">OVINO</span> is generated with a PostgreSQL query to my database and with Flask, python, HTML, CSS, and javascript.<br><br> </h4>
-        </section>
+        <br>
+        <br>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-1"></div>
     </div>

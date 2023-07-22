@@ -1,6 +1,4 @@
 ovinoenv 
 __pycache__ 
 .ipynb_checkpoints 
-app2-original.py 
-app-original.py 
-activate_env 
+venv

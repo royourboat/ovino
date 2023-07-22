@@ -1,19 +1,17 @@
 # coding: utf-8
 import os
-import psycopg2
-from flask import Flask, redirect, url_for, render_template, request, session
-from flask_googlemaps import GoogleMaps,Map, icons,get_address, get_coordinates
+from flask import Flask,  render_template, request
+from flask_googlemaps import GoogleMaps,Map,  get_coordinates
 import json
 import lcbo
-
 from flask_wtf import FlaskForm
 from wtforms.fields import DecimalRangeField, IntegerRangeField, IntegerField, DecimalField
-from wtforms.fields import SubmitField, StringField, SelectField
+from wtforms.fields import SubmitField, SelectField
 from flask_wtf.csrf import CSRFProtect
 
 
 API_KEY = os.getenv("GOOGLE_API_KEY") # google api key for ovino
-url = os.getenv("AUTOVINO_URL")  # postgres database
+sql_address = os.getenv("AUTOVINO_URL")  # postgres database
 
 app = Flask(__name__, template_folder="templates")
 app.config['SECRET_KEY'] = os.urandom(32)
@@ -41,10 +39,11 @@ class InputForm(FlaskForm):
     search = SubmitField('Search')
     sort_by = SelectField('Sort by', default = 1, choices=[
                                                 (1, 'Recommended Price'),
-                                                (2, 'Star Rating'),
-                                                (3, 'Price (low-high)'),
-                                                (4, 'Price (high-low)'),
-                                                (5, 'Calories (low-high)'),
+                                                (2, 'Price Votes'),
+                                                (3, 'Star Rating'),
+                                                (4, 'Price (low-high)'),
+                                                (5, 'Price (high-low)'),
+                                                (6, 'Calories (low-high)'),
                                             ])
 
 @app.route("/", methods=['POST', 'GET'])
@@ -70,7 +69,7 @@ def index():
         except:
             coord = get_coordinates(API_KEY, "Lake Ontario")
             MYADDRESS = f"'{MYADDRESS}' address not found."
-        closest_stores = lcbo.closest_stores(url, coord['lat'], coord['lng'], max_stores=1) #Find closest stores to coords
+        closest_stores = lcbo.closest_stores(sql_address, coord['lat'], coord['lng'], max_stores=1) #Find closest stores to coords
 
         if len(closest_stores)>0:
             fit_markers_to_bounds = True
@@ -78,14 +77,14 @@ def index():
         for store in closest_stores: #Add a marker for each store on google maps
             markers.append({
                 "icon": "/static/images/google_map_icon.png",
-                "lat" : store['latitude'],
-                "lng" : store['longitude'],
+                "lat" : store['lat'],
+                "lng" : store['lng'],
                 "title": "LCBO",
                 "infobox": (
                     '<div jstcache="3" class="title full-width" jsan="7.title,7.full-width"><b><b>LCBO</b></b></div>'
                     f'<div jstcache="4" jsinstance="0" class="address-line full-width" jsan="7.address-line,7.full-width">{store["address"]}</div>'
                     f'<div jstcache="4" jsinstance="*1" class="address-line full-width" jsan="7.address-line,7.full-width">{store["city"]}</div>'
-                    f'<div jstcache="4" jsinstance="*1" class="address-line full-width" jsan="7.address-line,7.full-width">{store["phone_number"]}</div>'
+                    f'<div jstcache="4" jsinstance="*1" class="address-line full-width" jsan="7.address-line,7.full-width">{store["phone"]}</div>'
                     ),
             })
 
@@ -99,13 +98,17 @@ def index():
         })
         
 
-        wine_cards, my_store = lcbo.get_wine_cards_from_closest_store(url, coord['lat'], coord['lng'],  page= PAGE, wines_per_page = MAX_WINES_PER_PAGE, form = form)
+        wine_cards, my_store = lcbo.get_wine_cards_from_closest_store(sql_address, coord['lat'], coord['lng'],  page= PAGE, wines_per_page = MAX_WINES_PER_PAGE, form = form)
         TOTAL_NUM_WINES = 0
         if wine_cards:
             TOTAL_NUM_WINES = wine_cards[0]['total_count']
-        
+
         TOTAL_NUM_PAGES = TOTAL_NUM_WINES/MAX_WINES_PER_PAGE
         TOTAL_NUM_PAGES = int(-(-TOTAL_NUM_PAGES // 1))
+        
+        print(wine_cards[0:3])
+        print(TOTAL_NUM_WINES)
+        print(TOTAL_NUM_PAGES)
 
 
     #Define google maps parameters for googlemaps api.
