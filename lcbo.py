@@ -58,6 +58,7 @@ def get_top_wines_from_store(
         'calories',
         'volume',
         'sku',
+        'url',
     ]
    
     order_dict = {

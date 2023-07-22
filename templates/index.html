@@ -303,7 +303,10 @@
                       <br>
                       <br>
                       {{"{:.1f}".format( wine_card['abv'])}}% ABV <br>
-                      {{"%d"%(wine_card['calories']) }} Cal per {{wine_card['volume']}} ml bottle
+                      {{"%d"%(wine_card['calories']) }} Cal per {{wine_card['volume']}} ml bottle <br>
+                      LCBO#: <a href={{wine_card["url"]}} color="#ad003b">{{wine_card['sku']}} </a>
+                      
+
                     </h4>
                     <!--                            <a class="read_more" href={{wine_card['details_url']}}>See LCBO SKU#{{wine_card['sku']}}</a>    -->
                   </div>
