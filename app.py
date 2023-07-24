@@ -36,8 +36,8 @@ class InputForm(FlaskForm):
     submit = SubmitField('Filter')
     search = SubmitField('Search')
     sort_by = SelectField('Sort by', default = 1, choices=[
-                                                (1, 'Recommended Price'),
-                                                (2, 'Price Votes'),
+                                                (1, 'Price Votes'),
+                                                (2, 'Recommended Price'),
                                                 (3, 'Star Rating'),
                                                 (4, 'Price (low-high)'),
                                                 (5, 'Price (high-low)'),

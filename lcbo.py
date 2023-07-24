@@ -62,8 +62,8 @@ def get_top_wines_from_store(
     ]
    
     order_dict = {
-        1: 'positivity desc',
-        2: 'votes desc',
+        1: 'votes desc',
+        2: 'positivity desc',
         3: 'ratings_average desc',
         4: 'promo_price_cents asc',
         5: 'promo_price_cents desc',
