@@ -111,10 +111,10 @@
               <div class="col-lg-6 col-md-6 col-s12">
                 <form action="." method="GET">
                   <div class="input-field "> 
-                    {% if my_store %} 
-                          <input type="text" name="myaddress" id="myaddress" style="width:100%;font-size:25px; font-family: FontAwesome; padding-left: 30px;" value="{{MYADDRESS}}" autocomplete="one-time-code" /> 
+                    {% if df_store %} 
+                          <input type="text" name="my_address" id="my_address" style="width:100%;font-size:25px; font-family: FontAwesome; padding-left: 30px;" value="{{my_address}}" autocomplete="one-time-code" /> 
                     {% else %} 
-                          <input type="text" name="myaddress" id="myaddress" style="width:100%;font-size:25px; font-family: FontAwesome; padding-left: 30px;" placeholder="Enter Your Location..." autocomplete="one-time-code" /> 
+                          <input type="text" name="my_address" id="my_address" style="width:100%;font-size:25px; font-family: FontAwesome; padding-left: 30px;" placeholder="Enter Your Location..." autocomplete="one-time-code" /> 
                     {%endif%} 
                       <label class="label-icon" for="search">
                       <i class="material-icons" style="padding-left: 5px;">search</i>
@@ -136,15 +136,15 @@
             <!-- MAP DISPLAY -->
             <div class="row" style=margin-top:10px>
               <div class="col-sm">
-                <div class="titlepage"> {% if my_store %} <h2 style=margin-top:40px>LCBO</h2>
+                <div class="titlepage"> {% if df_store %} <h2 style=margin-top:40px>LCBO</h2>
                   <h2 style=margin-top:-10px>
-                    <font color="#ad003b">{{my_store['name'].split('(')[0]}}</font>
-                  </h2> {%if '(' in my_store['name'] %} <h2 style=margin-top:-10px>
-                    <font color="#ad003b">{{'('+my_store['name'].split('(')[1]}}</font>
+                    <font color="#ad003b">{{df_store['name'].split('(')[0]}}</font>
+                  </h2> {%if '(' in df_store['name'] %} <h2 style=margin-top:-10px>
+                    <font color="#ad003b">{{'('+df_store['name'].split('(')[1]}}</font>
                   </h2> {%endif%} <h3>
-                    <font size=5>{{my_store['address']}}
-                      <br> {{my_store['city']}}
-                      <br> {{my_store['phone_number']}}
+                    <font size=5>{{df_store['address']}}
+                      <br> {{df_store['city']}}
+                      <br> {{df_store['phone_number']}}
                     </font>
                   </h3> {%endif%}
                 </div>
@@ -183,7 +183,7 @@
 
 
     <!-- store --> 
-    {% if my_store %} 
+    {% if df_store %} 
     <div class="store" style="margin-right: 30px;margin-left: 30px;">
       <a id="anchor-filter"></a>
       <form action="#" method="GET">
@@ -246,7 +246,7 @@
                   <div class="row">
                     <div class="col l12 m12 s12">
                       <div class="br3 box pa3 mt2 center-align h2">
-                        <input type="hidden" name="myaddress" value="{{MYADDRESS}}" />
+                        <input type="hidden" name="my_address" value="{{my_address}}" />
                         {{ form.submit(class_="btn") }}
                       </div>
                     </div>

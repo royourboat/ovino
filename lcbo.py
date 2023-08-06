@@ -1,23 +1,41 @@
 import psycopg2
+import pandas as pd
 
-def query(sql_address, q):
+def sql_query(sql_address, q):
+    '''
+    Returns DataFrame from PSQL database
+    
+    Parameters:
+        sql_address (str): Address to PSQL database
+        q (str): PSQL commands
+
+    Returns:
+        df (DataFrame): PSQL table results
+    '''
     conn = psycopg2.connect(sql_address)
     cur = conn.cursor()
     cur.execute(q)
     column_names = [desc[0] for desc in cur.description]
-    tbl = cur.fetchall()
+    data = cur.fetchall()
     conn.close()
-
-    return tbl, column_names
-
-def command(sql_address, q):
-    connection = psycopg2.connect(sql_address)
-    cur = connection.cursor()
-    cur.execute(q)
-    connection.commit()
-    connection.close()
+    df = pd.DataFrame(data, columns = column_names)
+    return df
 
 def closest_stores(sql_address, lat, lon, max_distance=20, max_stores=3):
+    '''
+    Returns the closest LCBO stores given the lat and lon.
+    
+    Parameters:
+        sql_address (str): Address to PSQL database
+        lat (float): Latitude
+        lon (float): Longitude
+        max_distance (float): Maximum search radius in kilometers
+        max_stores (int): Limit of store results
+
+    Returns:
+        df_stores (DataFrame): PSQL table with stores
+    '''
+    
     get_cols = ['lat', 'lng', 'store_id', 'name', 'address', 'city', 'phone']
     q = f"""
             SELECT *, 6371.0*2.0*asin(sqrt(sin(0.5*(lat2-lat1))^2 + cos(lat1)*cos(lat2)*sin(0.5*(lon2-lon1))^2  )) AS distance FROM (
@@ -30,21 +48,27 @@ def closest_stores(sql_address, lat, lon, max_distance=20, max_stores=3):
             LIMIT {max_stores};
     
     """
-    stores, cols = query(sql_address, q)    
-    stores = [dict(zip(get_cols,store)) for store in stores ]
-    return stores
+    df_stores = sql_query(sql_address, q)    
+    return df_stores
 
 
-def get_top_wines_from_store(
-        sql_address, 
-        store_id, 
-        min_votes=8, 
-        limit = 100, 
-        wines_per_page = 25,
-        page = 1,
-        form = None
-    ):
-   
+def get_wines_from_store(sql_address, store_id, min_votes=8, page = 1, wines_per_page = 25,  form = None, limit = 100):
+    '''
+    Returns wines from a selected store id. Only return wines in a given pagination.
+    
+    Parameters:
+        sql_address (str): Address to PSQL database
+        store_id (int): Unique store identifier
+        min_votes (int): Minimum number of price-sentiments available per bottle
+        page (int): Get the wines between indices [page*wines_per_page, (page+1)*wines_per_page]
+        wines_per_page (int): Wines per page
+        form (Flask InputForm): Object containing query parameters.
+        limit (int): Maximum returned results for safety.
+
+    Returns:
+        wine_cards (List of Dict): List of wines with various features. Returned this way due to Flask.
+    '''
+    
     cols = [
         'name',
         'varietal',
@@ -92,12 +116,10 @@ def get_top_wines_from_store(
         DROP VIEW IF EXISTS store_products;
         DROP VIEW IF EXISTS available_products;
 
-
         CREATE VIEW available_products AS
         SELECT SKU FROM inventory
         WHERE store_id = {store_id} and quantity > 0;
 
-        -- Reminder: Use "USING" instead of a.sku = b.sku when joining in VIEW. 
         CREATE VIEW store_products AS
         SELECT * FROM (
             -- Get product details, if products available in store
@@ -158,28 +180,20 @@ def get_top_wines_from_store(
         limit {limit};
     """
 
-    wine_cards, cols = query(sql_address, q)
-    wine_cards = [dict(zip(cols,s)) for s in wine_cards ]
-
-    for wine_card in wine_cards:
-        wine_card['price'] = wine_card['promo_price_cents']/100.
-        wine_card['url_thumbnail'] = wine_card['url_thumbnail'].replace('319.319', '1280.1280')
-        if not wine_card['description']:
-            wine_card['description'] = 'No description available'
-        
+    df_wine_cards = sql_query(sql_address, q)
+    df_wine_cards['price'] = df_wine_cards['promo_price_cents'].apply(lambda x: x/100.)
+    df_wine_cards['url_thumbnail'] = df_wine_cards['url_thumbnail'].apply(lambda x: x.replace('319.319', '1280.1280'))
+    df_wine_cards['description'] = df_wine_cards['description'].apply(lambda x: 'No description available.' if not x.strip() else x)
+    
+    made_in_text = []
+    for i, wine_card in df_wine_cards.iterrows():
         if wine_card['region']:
-            wine_card['made_in'] = f"{wine_card['region']}, {wine_card['country']}"
+            made_in_text.append(f"{wine_card['region']}, {wine_card['country']}")
         else:
-            wine_card['made_in'] = f"{wine_card['country']}"
+            made_in_text.append(f"{wine_card['country']}")
+    df_wine_cards['made_in'] = made_in_text
+            
+    wine_cards = [dict(d) for i,d in df_wine_cards.iterrows()]    
     return wine_cards
 
-def get_wine_cards_from_closest_store(sql_address, my_store, lat, lng, limit = 50, wines_per_page = 25,
-        page = 1, form=None):
-    
-    store_id = my_store['store_id']
-    
-    wine_cards = get_top_wines_from_store(sql_address, store_id, limit = limit, wines_per_page = wines_per_page,
-        page = page,  form = form)
 
-    return wine_cards
-    
