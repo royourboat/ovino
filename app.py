@@ -78,7 +78,6 @@ def index():
         
         # Find closest stores to coords
         df_store = lcbo.closest_stores(sql_address, coord['lat'], coord['lng'], max_stores=1).iloc[0].to_dict()
-        print(df_store)
         
         # Google Maps marker for store location
         markers.append({
@@ -108,10 +107,8 @@ def index():
         TOTAL_NUM_WINES = 0
         if wine_cards:
             TOTAL_NUM_WINES = wine_cards[0]['total_count']
-
         TOTAL_NUM_PAGES = TOTAL_NUM_WINES/MAX_WINES_PER_PAGE
         TOTAL_NUM_PAGES = int(-(-TOTAL_NUM_PAGES // 1))
-        print(TOTAL_NUM_PAGES, TOTAL_NUM_WINES)
                 
     # Define google maps parameters for googlemaps api.
     sndmap = Map(
