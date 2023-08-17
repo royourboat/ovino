@@ -151,55 +151,34 @@
           
           <h3> 
             
-            I made this app called OVINO to help me discover awesome and the best priced wines.
+            Welcome to OVINO! I made this app to help me find awesome wine for the best prices anywhere in Ontario, Canada. Anywhere! All liquor stores are owned by the government, and they publish their live prices and inventories online. OVINO collects this information and uses machine learning to judge whether these prices are 'good'. 
+                      
             
-            How does it work? 
-            
-            OVINO sifts through millions of wine reviews to determine the price users paid and their price satisfaction. By comparing LCBO's prices with what users paid, OVINO tallies user price opinions and identifies the most favorably priced wines.
             
             <br>
             <br>
-             So, if you're on the hunt for some tasty and well priced wines, give OVINO a try! <br><br>
+             So, if you're on the hunt for some tasty and well priced wines, click on the OVINO logo above. Type in your general location and enjoy! <br><br>
 
         
-            If you'd like to learn more, continue reading below or check out <a href="https://royourboat.github.io/" style="color:blue">my blog</a> for details! 
+            If you'd like to learn more, continue reading below and check out <a href="https://royourboat.github.io/" style="color:blue">my blog</a> for details! 
           </h3>
         </section>
 
 
 
-      <section class="problem-section">
-        <h1> The tech.</h1>
 
-        <h3>
-
-        Data Science: SciKit-Learn, Pandas, Sentence-Transformers (S-BERT), spaCy, XGBoost, LightGBM
-
-        <br><br>
-
-        Data Management: AWS S3, GitHub Actions, PostgreSQL, Bash scripts
-
-        <br><br>
-
-        Front-end: Flask
-
-        <br><br>
-        Languages: Python, SQL, Bash, YAML, HTML
-
-
-        </h3>
 
       </section>
 
         <section class="problem-section">
           <h1> The problem.</h1>
           <h3> 
-            My eyes strain from reading <font size=1px> tiny terse descriptions </font> about arbitrarily priced bottles. I often give up and buy the coolest looking bottle, which is fun but a risky $20. 
+            I'm a complete wine novice. My eyes strain from reading <font size=1px> tiny terse descriptions </font> about arbitrarily priced bottles. I often end up buying the coolest looking bottle, which is fun but a risky $20. 
             <br><br>
             <img src="../static/images/wine-lcbo.jpg" />
             <br>
             <br>
-          Unfortunately, LCBO's app is underused and lacks ratings. Wine recommendations from the LCBO staff have also flopped even after feedback and revised recommendations. 
+          Unfortunately, LCBO's app is underused and lacks ratings. Wine recommendations from the LCBO staff have also flopped even after feedback and revised recommendations. And, prices are often questionable given the government-run company posses an extremely strong monopoly.
           <br>
           <br>
 
@@ -211,8 +190,15 @@
         <section class="recommender-section">
           <h1>The price recommender.</h1>
           <h3>
-            <a href="https://www.vivino.com" style="color:blue">Vivino</a> is a very popular wine app containing millions of wines. Many of the wines have over 100,000 reviews! <br>
-            <br> I noticed about 1 in 200 user reviews state the price paid and the sentiment for the price. My idea is to crowdsource these price sentiments to judge a wine bottle's price at the LCBO. Here's a schematic of the idea.
+            <a href="https://www.vivino.com" style="color:blue">Vivino</a> is a very popular wine app containing millions of wines, many of which have over 100,000 reviews! <br>
+            <br> OVINO sifts through millions of wine reviews to determine the price users paid and their price satisfaction. By comparing LCBO's prices with what users paid, OVINO tallies user price opinions and identifies the most favorably priced wines.
+
+
+            
+            <br>
+          <br>
+          
+            Here's a schematic of my idea:
           
           <a href="../static/images/price_sentiment_diagram.png">
             <img src="../static/images/price_sentiment_diagram.png" />
@@ -224,41 +210,66 @@
             <h1>The machine learning approach.</h1>
 
             <h3>
-          How do I sift through all of these reviews? With some exploratory data analysis to start! <a href="https://royourboat.github.io/posts/2023-07-06-vivino-part1" style="color:blue">Here's a link</a> to one of my posts that takes a bite into the raw data. 
+          How do I sift through all of these reviews? With some exploratory data analysis to start. <a href="https://royourboat.github.io/posts/2023-07-06-vivino-part1" style="color:blue">Here's a link</a> to one of my posts that digs into the reviews. 
           
           <br><br>
-
-          Identifying reviews containing prices is straightforward where if there is a dollar sign '$' followed by a set of numbers then that is the price. This reduces millions of reviews to roughly 50k with prices that users paid. 
+          <b>Step one: Identify reviews with prices</b><br>
+          Identifying reviews containing prices is straightforward: if there is a dollar sign '$' followed by a set of numbers then that is the price. This reduces millions of reviews to roughly 150k with prices that users paid, about one-third of which are for bottles available at the LCBO. 
           <br><br>
+          <b>Step two: Create training data</b><br>
 
-          Trying to extract the price sentiment from 50k reviews is a lot of human effort. This is where the power of machine learning comes in! To train a machine learning model, we need to have a training set of data to work with. I manually labelled a subset of the reviews with price sentiments. <a href="https://royourboat.github.io/posts/2023-07-10-price-sentiment" style="color:blue">Here's a link</a> to a summary of the training data for reviews with price-sentiments; it has figures like this one:
+          Trying to extract the price sentiment from 50k reviews is a lot of human effort. This is where the power of machine learning comes in! To train a machine learning model, we need to have (1) a set of labelled price sentiment reviews, and (2) a way to convert reviews into numbers for a computer to understand.
+          
+          <br><br>
+          (1) I manually labelled a subset of reviews with price sentiments. <a href="https://royourboat.github.io/posts/2023-07-10-price-sentiment" style="color:blue">Here's a link</a> to a summary of the training data; it has figures like this one:
 
           <img src="../static/images/price-sentiment.png" alt="#" />
 
           <br><br>
 
-          The next step is to convert text into numbers, so we can use machine learning tools to understand the reviews. I describe the approach in detail <a href="https://royourboat.github.io/posts/2023-07-10-price-sentiment" style="color:blue">here</a>. I use two Natural Language Processing methods: the 'bag of words' model and 'sentence embeddings'. Think of this as an analog to the 'wide & deep' recommender if you're acquainted with recommendation systems. The 'bag of words' model identifies keywords linked to positive and negative price sentiments, encompassing a 'wide' array of potential words. 
+          (2) Converting reviews into numbers id described in detail <a href="https://royourboat.github.io/posts/2023-07-10-price-sentiment" style="color:blue">here</a>. Here's a brief summary of how I do this:
           
           <br><br>
           
-          Unfortunately, these models aren't very good when there are multiple sentiments to disentangle since it does not care about word order. For example, "good flavours and soft notes, would not buy again" has multiple sentiments. Sentence embeddings are trained on an extensive text dataset to capture the essence of a text segment. This 'deep' technique tackles the complex task of translating textual nuances into numerical sequences. The combination of these techniques produces a very long list of numbers for every review.
+          I use two Natural Language Processing methods: the 'bag of words' model and 'sentence embeddings'. The 'bag of words' model identifies keywords and labels them with a unique number. Here's an example:
+          <br><br>
+          <img src="../static/images/bagofwords.png" alt="#" />
+          <br><br>
+          You can see the problem immediately: the context is lost and multiple sentiments are merged together! This leads to false positives with longer reviews, but less so with short ones like "good price for $20". We can employ bigrams by treating "good price" as one keyword also, which is done here. 
+          <br><br>
+          
+          Sentence transformers are trained on an extensive corpus of text and attempts to capture the essence or meaning of a text! Here's an example below:
+          <br><br>
+          <img src="../static/images/sentence-transformers.png" alt="#" />
+          <br><br>
+
+          Appears a bit magical! I found these transformers to help tremendously: <br> (a) Most reviews are dominated by descriptions of wine flavours, nuances, and other thoughts. The price-sentiment represents a small section of a review that the transformer can identify! This is really useful for imbalanced datasets like mine. <br>(b) Little pre-processing! The transformers are trained on corpuses like Reddit and Twitter. Unlike the bag of words model, the transformers understands that "perform", "performed", "performs", "performing", etc. are of the same etymology and are connected to other etymologies and synonyms!
+          
+          <br><br>
+
+          Sometimes the sentence transformer can just miss the mark. For instance, it may not understand that "Good QPR" means "Good quality-price ratio", which would be a positive sentiment that the bag of words model can learn easily. That's why combining the bag of words model and sentence transformers leads to better results! 
+          <br><br>
+          Turns out my idea is an analog to the 'wide & deep' recommender (<a href="https://arxiv.org/abs/1606.07792" style="color:blue">paper here</a>)! The 'wide' network is the bag of words, and the 'deep' is the sentence transformer. 
+          
+          
 
           <br><br>
+          <b>Step three: Machine learning!</b><br>
 
           The last step is to find the best machine learning model that can predict the correct price sentiments given a review (or, more precisely, the long list of numbers described earlier). This requires experimentation. I use 6 different machine learning models and compare their performances <a href="https://royourboat.github.io/posts/2023-07-11-price-sentiment-2/" style="color:blue">here</a>. 
 
           <br><br>
-          Here are the results for the best model, XGBoost! If you're not familiar with these sorts of plots, the performance is pretty darn good for NLP problems with an imbalanced dataset (i.e., unequal proportions of sentiment categeories). 
+          Here are the results for the best model, XGBoost! If you're not familiar with these sorts of plots, the performance is pretty darn good for NLP problems with an imbalanced dataset and small signal. 
           <br><br>
           <img src="../static/images/xgboost.png" alt="#" />
           
 
           </h3>
-
+          <br><br>
           <h3> 
-            
-            
-            Bonus feature for OVINO: I noticed the LCBO provides both the sugar content and ABV for most bottles. Sugar and alcohol make up most of the calories. So, I provide an estimate for each bottle's total calories. This is an estimate! I am not dietitian.  </h3>
+            <b>If you've made it this far then thank you!</b><br> I hope I've peaked your interest in both wine and machine learning. 
+            <br><br>
+            <b>Bonus feature</b>: The LCBO provides both the sugar content and ABV for most bottles. Sugar and alcohol make up most of the calories. So, I provide an estimate for each bottle's total calories. This is an estimate! I am not dietitian. I am a physicist that has a pretty good understanding of energy conservation. So, this estimate should account for most of the calories.  </h3>
         </section>
         <br>
         <br>
