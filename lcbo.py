@@ -21,6 +21,27 @@ def sql_query(sql_address, q):
     df = pd.DataFrame(data, columns = column_names)
     return df
 
+def get_wine_id_dict(sql_address):
+    '''
+    Returns a dictionary that matches Vivino's wine_id (vivid2) to LCBO's SKU number.
+    
+    Parameters:
+        sql_address (str): Address to PSQL database
+
+    Returns:
+        dict_table (dict): {wine_id: sku}
+    '''
+    
+    q = '''
+    SELECT vivid2 AS wine_id, sku FROM index_matches
+    WHERE vivid2 is not null and sku is not null
+    '''
+    df = sql_query(sql_address, q)
+    dict_table = dict(zip(df['wine_id'].astype(int).to_list(), df['sku'].astype(int).to_list()))
+    return dict_table
+    
+    
+
 def closest_stores(sql_address, lat, lon, max_distance=20, max_stores=3):
     '''
     Returns the closest LCBO stores given the lat and lon.
@@ -33,7 +54,7 @@ def closest_stores(sql_address, lat, lon, max_distance=20, max_stores=3):
         max_stores (int): Limit of store results
 
     Returns:
-        df_stores (DataFrame): PSQL table with stores
+        df_stores (dataFrame): PSQL table with stores
     '''
     
     get_cols = ['lat', 'lng', 'store_id', 'name', 'address', 'city', 'phone']
@@ -52,7 +73,7 @@ def closest_stores(sql_address, lat, lon, max_distance=20, max_stores=3):
     return df_stores
 
 
-def get_wines_from_store(sql_address, store_id, min_votes=8, page = 1, wines_per_page = 25,  form = None, limit = 100):
+def get_wines_from_store(sql_address, store_id, min_votes=8, page = 1, wines_per_page = 25,  form = None, limit = 100, skus_filter = []):
     '''
     Returns wines from a selected store id. Only return wines in a given pagination.
     
@@ -64,9 +85,10 @@ def get_wines_from_store(sql_address, store_id, min_votes=8, page = 1, wines_per
         wines_per_page (int): Wines per page
         form (Flask InputForm): Object containing query parameters.
         limit (int): Maximum returned results for safety.
+        skus_filter (list of ints): List of SKUs to permit. Experimental with AI recommender.
 
     Returns:
-        wine_cards (List of Dict): List of wines with various features. Returned this way due to Flask.
+        wine_cards (list of dict): List of wines with various features. Returned this way due to Flask.
     '''
     
     cols = [
@@ -109,7 +131,34 @@ def get_wines_from_store(sql_address, store_id, min_votes=8, page = 1, wines_per
         order = int(form.sort_by.data)
 
     order_by = order_dict[order]
-
+    
+    q_create_skus_filter_table = ""
+    q_join_skus_filter_table = ""
+    temp_sku_table_name = "TempSKUFilteredTable"
+    if skus_filter:
+        q_create_skus_filter_table = f"""
+        DROP TABLE IF EXISTS {temp_sku_table_name};
+        
+        CREATE TABLE {temp_sku_table_name} (
+            SKU int 
+        );
+        
+        INSERT INTO {temp_sku_table_name}       
+        VALUES
+        """
+        for sku in skus_filter[:-1]:
+            q_create_skus_filter_table += f"""
+            ({sku}),
+            """
+        q_create_skus_filter_table += f"({skus_filter[-1]});"
+        
+        q_join_skus_filter_table = f"""
+        INNER JOIN(
+            SELECT * FROM {temp_sku_table_name}
+        ) as tstn
+        USING (SKU)
+        """
+        
     q = f"""
         DROP VIEW IF EXISTS num_store_products;
         DROP VIEW IF EXISTS store_products_sentiment;
@@ -119,6 +168,8 @@ def get_wines_from_store(sql_address, store_id, min_votes=8, page = 1, wines_per
         CREATE VIEW available_products AS
         SELECT SKU FROM inventory
         WHERE store_id = {store_id} and quantity > 0;
+        
+        {q_create_skus_filter_table}
 
         CREATE VIEW store_products AS
         SELECT * FROM (
@@ -146,8 +197,10 @@ def get_wines_from_store(sql_address, store_id, min_votes=8, page = 1, wines_per
                 SELECT * FROM vivino_lcbo_ratings
             ) as vlr
             USING (vivid2)
-            
+            {q_join_skus_filter_table}
         ) as dum;
+        
+        
 
         CREATE VIEW store_products_sentiment AS (
             SELECT * FROM (
@@ -166,7 +219,7 @@ def get_wines_from_store(sql_address, store_id, min_votes=8, page = 1, wines_per
             AND promo_price_cents <= {int(price_max*100)}
             AND ratings_average >= {rating_min}
             ORDER BY {order_by}
-        ) ;
+        );
         
         CREATE VIEW num_store_products AS
         SELECT COUNT(*) AS total_count FROM store_products_sentiment;

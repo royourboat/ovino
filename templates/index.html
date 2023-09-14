@@ -43,6 +43,7 @@
   </style>
   <style>
     .btn {
+      border:  10px;
       font-size: 20px;
     }
 
@@ -57,6 +58,19 @@
       margin: 5px 20px;
       border-radius: 50%;
       vertical-align: middle;
+    }
+
+    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: rgba(0, 0, 0, 0.5);
+    opacity: 1; /* Firefox */
+    }
+
+    :-ms-input-placeholder { /* Internet Explorer 10-11 */
+      color: rgb(0, 0, 0, 0.5);
+    }
+
+    ::-ms-input-placeholder { /* Microsoft Edge */
+      color: rgb(0, 0, 0, 0.5);
     }
 
   </style>
@@ -102,6 +116,7 @@
         </div>
         <!-- end header inner -->
         <main>
+
         <!-- banner -->
         <section class="banner_main">
           <div class="container" style=margin-top:-40px>
@@ -124,7 +139,6 @@
               </div>
               <div class="col-lg-3 col-md-3"></div>
             </div>
-
 
 
             {% if len_wine_cards > 0 %} 
@@ -152,22 +166,41 @@
               <div class="col-md">
                 <div align="center" style=margin-top:0px> {{sndmap.html}} </div>
               </div>
-            </div> {%if len_wine_cards > 0%} <div class="row" style=margin-top:50px>
+            </div> 
+            {%if len_wine_cards > 0%} 
+            <a id="anchor-filter"></a>
+            <div class="row" style=margin-top:50px>
+              
               <div class="col-md">
                 <div class="logo">
-                  <img src="static/images/ovino_v.png" style="max-width: 25%;" />
+                  <img src="static/images/ovino_v.png" style="max-width: 35%;" />
                 </div>
               </div>
-              <div class="col-md-6 ">
+              <div class="col-md-8 ">
                 <div class="full">
                   <div class="center-desk">
-                    <h1 style=margin-top:10px>Scroll for recommended bottles!</h1>
+                    {%if my_wdr_dict and vivino_username%}
+                      <h1 style=margin-top:10px>Scroll for <font color="#ad003b">AI-recommended</font> bottles for <font color="#ad003b">{{vivino_username}}</font>!</h1>
+                      <h4><font color="#ad003b">AI-generated<div data-toggle="tooltip" data-placement="top" title="AI-generated recommendations are based on users with very similar ratings as yours!" style="display:inline;"><font size=3 style="vertical-align: text-top; text-align: left;"> &#9432; </font></div></font> suggestions from <font color="#ad003b">your preferences</font> and 7 million wine ratings by 35,000 users.</h4>
+                    {% else %}
+                      <h1 style=margin-top:10px>Scroll for recommended bottles!</h1>
+                    {% endif %}
                   </div>
                 </div>
               </div>
               <div class="col-md">
                 <div class="logo">
-                  <img src="static/images/ovino_v.png" style="max-width: 25%;" />
+                  <img src="static/images/ovino_v.png" style="max-width: 35%;" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                {%if vivino_username and not my_wdr_dict%}
+                <h3 style=margin-top:10px>
+                Unfortunately, no recommendations could be found for <font color="#ad003b">{{vivino_username}}</font> or the username is invalid. Here are some general recommendations!
+                </h3>
+                {% endif %}
                 </div>
               </div>
             </div> {% endif %}
@@ -184,8 +217,8 @@
 
     <!-- store --> 
     {% if df_store %} 
-    <div class="store" style="margin-right: 30px;margin-left: 30px;">
-      <a id="anchor-filter"></a>
+    <div class="store" style="margin-right: 30px;margin-left: 30px; margin-top:-20px;">
+      
       <form action="#" method="GET">
         <div class="row">
           <div class="col-lg-2 col-md-2"></div>
@@ -195,7 +228,7 @@
 
                 <div class="collapsible-header">
                   <i class="material-icons" style="font-size: 30px; padding-top: 2px;">tune</i>
-                  <h2>Filters</h2>
+                  <h2>Filters & Experimental AI</h2>
                 </div>
 
                 <div class="collapsible-body #ffffff white ">
@@ -206,7 +239,7 @@
                       <div class="input-field inline">
                         <input id="price_min" name="price_min" type="number" value={{form.price_min.data}} min="1" max={{form.price_max.data-1}} style="text-align-last:center; font-size:20px;" oninput="outputUpdateInt(price_min.value,price_min.name)">
                         <label class="label-icon" for="attach_money" style="top: -3px;">
-                          <i class="material-icons" style="padding-left: 5px;">attach_money</i>
+                          <i class="material-icons" style="padding-left: 5px; padding-top: 1px;">attach_money</i>
                         </label>
                       </div>
                     </div>
@@ -217,7 +250,7 @@
                       <div class="input-field inline">
                         <input id="price_max" name="price_max" type="number" value={{form.price_max.data}} min={{form.price_min.data+1}} max="1000000" style="text-align-last:center; font-size:20px;" oninput="outputUpdateInt(price_max.value,price_max.name)">
                         <label class="label-icon" for="attach_money" style="top: -3px;">
-                          <i class="material-icons" style="padding-left: 5px;">attach_money</i>
+                          <i class="material-icons" style="padding-left: 5px; padding-top: 1px;">attach_money</i>
                         </label>
                       </div>
                     </div>
@@ -227,7 +260,6 @@
 
 
                   <div class="row">
-                    <!-- Form query and submit button -->
                     <div class="col-lg-6 col-md-6 col-s12">
                       <h2>
                         <i class="fa fa-star checked h3"></i> Rating: <span id="val_rating_min" color="#ad003b">{{ "%.1f"|format(form.rating_min.data)}}</span>+
@@ -243,6 +275,22 @@
                       {{form.sort_by}}
                     </div>
                   </div>
+
+                  <div class="row">
+                    <!-- Experimental AI -->
+                    <div class="col-lg-4 col-md-4"></div>
+                    <div class="col-lg-4 col-md-4 col-s12">
+                      <h2>
+                        Experimental AI Recommender <div data-toggle="tooltip" data-placement="top" title="My username is stephen.ro1 and it is located in my profile's URL: https://www.vivino.com/users/stephen.ro1. Please wait for the filter to complete if you have several hundred reviews or more!" style="display:inline;"><font size=3 style="vertical-align: text-top; text-align: left;"> &#9432; </font></div>
+                        <div class="input-field inline col s12">
+                            <input placeholder=" Enter Vivino username" id="vivino_username" name="vivino_username" type="text" style = "width: 100%; padding-left: 30px;" oninput="outputUpdateInt(vivino_username.value,vivino_username.name)" >
+                            <label class="label-icon" for="account_circle" style="top: -3px;">
+                              <i class="material-icons" style="padding-left: 5px; padding-top: 1px;">account_circle</i>
+                            </label>
+                        </div>
+                      </h2>
+                    </div>   
+                  </div>
                   <div class="row">
                     <div class="col l12 m12 s12">
                       <div class="br3 box pa3 mt2 center-align h2">
@@ -251,6 +299,7 @@
                       </div>
                     </div>
                   </div>
+
                 </div>
               </li>
             </ul>

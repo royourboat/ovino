@@ -161,6 +161,10 @@
 
         
             If you'd like to learn more, continue reading below. For detailed explanations, check out <a href="https://royourboat.github.io/" style="color:blue">my blog</a>! 
+            <br>
+            <br>
+            I'm happy to announce that <b>OVINO was awarded the best data science project!</b> A competition was held amongst dozens of doctorates at <a href="https://www.thedataincubator.com/" style="color:blue">my blog</a>, a data science bootcamp with &lt;3% admission rate. 
+
           </h3>
         </section>
 
@@ -173,15 +177,15 @@
         <section class="problem-section">
           <h1> The problem.</h1>
           <h3> 
-            When buying wine, I have no idea what I'm doing. Bottles are pretty. Prices are random. Aisles are geographic. And, there's a fancy section where I can make heavy bets. <br><br>
+            <b>I'm lost when buying wine</b>. Aisles are geographic. Prices are random. Descriptions are terse. And, there's a fancy section where I can make heavy bets. <br><br>
 
-            The barrier of entry for wine novices is incredibly high! Plus, the <font size=1px> tiny terse descriptions </font> adds a layer of accessibility issues. 
+            The barrier of entry for wine is incredibly high for newcomers! The <font size=1px> tiny terse descriptions </font> adds a layer of accessibility issues. 
             <br><br>
             <img src="../static/images/wine-lcbo.jpg" />
             <br>
             <br>
           
-          The LCBO mildly reduces this barrier but not by much. For instance, their app is underused and lacks ratings. All of the recommendations from their wine guides have been flops, even after delivering feedback with the same expert. And, a government-run monopoly does not give me confidence towards fair prices.
+          The LCBO reduces this barrier but not by much. While there is an app, it lacks ratings and is clunky to use. Recommendations from their in-person guides have never delivered, even after sharing feedback with the same expert. And, a government-run monopoly does not give confidence of fair prices.
           <br>
           <br>
 
@@ -190,15 +194,24 @@
             <h3> 
               <b>We can solve this with data. It's all there! </b> <br><br>
               
-              My solution is to connect LCBO's live database of wines to <a href="https://www.vivino.com" style="color:blue">Vivino</a>, a very popular wine app with nearly 100 million wine reviews. This would immediately deliver thousands (100k for some bottles!) of ratings for each wine. 
+              My solution is to connect LCBO's live database of wines to <a href="https://www.vivino.com" style="color:blue">Vivino</a>, a very popular wine app with nearly 100 million wine ratings. This would immediately deliver thousands (100k for some bottles!) of ratings for each wine. 
               <br>
               <br>
-              It is still a lot of work to sift through ratings and reviews. Most of the reviews are full of flavour descriptors, which is just 'noise' for a novice like me. <b>All I desire is a well-priced wine</b>. 'Well-priced wine' is subjective, however! There are 'amazing' $5 and $50 wines, but not everyone will agree. <b>How can we 'poll' or survey people to crowdsource opinions on wine prices?</b>
+              It is still a lot of work to sift through wine descriptions and ratings. Including reviews may seem beneficial but its generally full of 'noise' (i.e., long lists of flavour notes and profiles). 
+              <br>
+              <br>
+              <b>What I desire is a well-priced wine</b>. 'Well-priced wine' is subjective, however! There are 'amazing' $5 and $50 wines, but not everyone will agree. So, <b>how can I crowdsource opinions on wine prices?</b> 
 
               <br>
               <br>
 
-              <b>My insight:</b> I noticed about 1 in 150 user reviews on Vivino list the price they paid and whether it was good or bad! With these price reviews, I can collectively judge whether the prices at my stores are good or bad. 
+              <b>My insight:</b> I noticed about 1 in 150 user reviews on Vivino list the price they paid and the sentiment for that price! By gathering these price reviews, I can collectively judge whether the prices at my stores are considered good or bad. 
+
+              Here's a schematic of my idea:
+          
+              <a href="../static/images/price_sentiment_diagram.png">
+                <img src="../static/images/price_sentiment_diagram.png" />
+              </a>
 
             </h3>
           </section>
@@ -209,24 +222,6 @@
 
         <section class="recommender-section">
           <h1>The price recommender.</h1>
-          <h3>
-            OVINO sifts through millions of wine reviews to determine the price users paid and their price satisfaction. By comparing LCBO's prices with what users paid, OVINO tallies user price opinions and identifies the most favorably priced wines.
-
-
-            
-            <br>
-          <br>
-          
-            Here's a schematic of my idea:
-          
-          <a href="../static/images/price_sentiment_diagram.png">
-            <img src="../static/images/price_sentiment_diagram.png" />
-          </a>
-        </h3>
-          <br><br>
-        </section>
-          <section class="details-section">
-            <h1>The machine learning.</h1>
 
             <h3>
           How do I sift through all of these reviews? With some exploratory data analysis to start. <a href="https://royourboat.github.io/posts/2023-07-06-vivino-part1" style="color:blue">Here's a link</a> to one of my posts that digs into the reviews. 
