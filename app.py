@@ -86,6 +86,8 @@ def index():
     markers = []
     
     if vivino_username:
+        if '/' in vivino_username:
+            vivino_username = vivino_username.split('/')[-1]
         app.vivino_username = str(vivino_username)
     else:
         app.vivino_username = USERNAME_DEFAULT
