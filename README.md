@@ -36,7 +36,7 @@
   </p>
 </div>
 
-## Data Science Project Winner
+## Winning Data Science Project 
 
 OVINO is an end-to-end project built, evaluated, and deployed by me, Stephen. My app was competitively selected as best data science project by [The Data Incubator](https://www.thedataincubator.com/) (TDI) faculty amongst two cohorts of doctorates (about 50 fellows). 
 
@@ -44,7 +44,7 @@ OVINO is an end-to-end project built, evaluated, and deployed by me, Stephen. My
 <!-- ABOUT THE PROJECT -->
 ## About 
 
-In short, OVINO helps me find 'well-priced' wines at my nearest stores by crowdsourcing user reviews containing prices. It also provides personal wine recommendations based on a Vivino user's history of wine ratings using a wide & deep recommender. 
+In short, OVINO helps me find well-priced wines at my nearest stores by crowdsourcing user reviews containing prices. It also provides personal wine recommendations based on a Vivino user's history of wine ratings using a wide & deep recommender. 
 
 The motivations and designs for OVINO are described in this [About section](https://ovino.onrender.com/about/). 
 
@@ -71,7 +71,9 @@ Distributed under the BSD 3-Clause License. See `LICENSE.txt` for more informati
 <!-- CONTACT -->
 ## Contact
 
-Stephen Ro
+Stephen Ro 
+
+[Website](https://royourboat.github.io/)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
