@@ -45,7 +45,7 @@
 
 This repo contains my Data Science Capstone Project called OVINO. OVINO finds the nearest LCBO store to your location and displays wines with the "best-valued" wines. 
 
-My project was competitively selected amongst two data science cohorts by [The Data Incubator](https://www.thedataincubator.com/) (TDI) faculty. I gave a presentation to a group of data science business owners, professional data scientists, TDI faculty and fellows. My presentation can be viewed [here](https://www.youtube.com/watch?v=u7fpod5GeyY&t=1046s).  
+My project was competitively selected amongst two data science cohorts by [The Data Incubator](https://www.thedataincubator.com/) (TDI) faculty. 
 
 
 ## How do you select the "best-valued" wines?
